@@ -1,6 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 
- 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@layer components {
+  .primaryGradiant {
+    background-color: linear-gradient(135deg,  #6366f1,  0%,  #8b5cf6, 25%, #a855f7, 50%, #d946ef 100% );
+  }
+  .glassCard {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .primaryText {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  .secondaryText {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .error {
+    color: #ef4444;
+  }
+  .success {
+    color: #10b981;
+  }
+  .headind-h1 {
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .heading-h2 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .body {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .small {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .gradient-mesh {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(139, 92, 246, 0.3) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(168, 85, 247, 0.3) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 70%,
+        rgba(99, 102, 241, 0.2) 0%,
+        transparent 50%
+      );
+    animation: meshMove 20s ease-in-out infinite;
+  }
+  @keyframes meshMove {
+    0%, 100% {transform: translate(-10%, -10%) rotate(0deg)};
+    33%  {transform: translate(-5%, -15%) rotate(1deg)};
+    66%  {transform: translate(-15%, -5%) rotate(-1deg)};
+  }
+
+  .inputForm  {
+    width: 100%;
+    height: 56px;
+    border-radius:12px ;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+   /* input state */
+   .default {
+     background-color: rgba(255, 255, 255, 0.1);
+   }
+   .focus {
+     background-color: rgba(255, 255, 255, 0.15);
+     border: 1px solid rgba(168, 85, 247, 0.15);
+   }
+   .inpurError{
+    background-color: rgba(239, 68, 68, 0.2);
+    border: 1px solid  #ef4444;
+   }
+   .inpurSuccess{
+    background-color: rgba(16, 185, 129, 0.2);
+    border: 1px solid #10b981;
+
+   }
+   .lableDefault {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0,2, 1);
+   }
+
+    
+
+
+  
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-optical-sizing: auto;
+  font-size: 16px;
+  font-weight: 400;
 }
