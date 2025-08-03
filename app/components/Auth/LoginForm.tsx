@@ -174,7 +174,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </p>
         </div>
       </div>
-
       {/* Register Link */}
     </form>
   );
