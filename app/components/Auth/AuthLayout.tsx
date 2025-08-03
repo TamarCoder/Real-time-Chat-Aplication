@@ -5,6 +5,7 @@ interface AuthLayoutProps {
   children: React.ReactNode;
   title: string;
   subtitle?: string;
+  isRegistrationPage?: boolean;
 }
 
 const BackgroundPattern = () => (
@@ -144,9 +145,12 @@ const AuthHeader = ({ title, subtitle }: { title: string; subtitle?: string }) =
   </div>
 );
 
-const containerClasses = `
+const getContainerClasses = (isRegistrationPage = false) => `
   relative w-full 
-  min-h-[600px] h-[80vh] max-h-[900px]
+  ${isRegistrationPage 
+    ? 'min-h-[750px] h-auto' 
+    : 'min-h-[750px] h-[30vh] max-h-[700px]'
+  }
   max-w-[450px]
   xs:max-w-[550px]
   sm:max-w-[650px]
@@ -160,9 +164,10 @@ const containerClasses = `
   mx-auto
 `;
 
-const cardClasses = `
+const getCardClasses = (isRegistrationPage = false) => `
   bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 
-  rounded-2xl shadow-2xl w-full h-full 
+  rounded-2xl shadow-2xl w-full 
+  ${isRegistrationPage ? 'h-auto' : 'h-full'}
   flex flex-col justify-center
   mx-4 my-3
   xs:mx-6 xs:my-4
@@ -176,14 +181,14 @@ const cardClasses = `
   5xl:mx-32 5xl:my-16
 `;
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitle }) => {
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitle, isRegistrationPage }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center py-8">
       <BackgroundPattern />
       <FloatingElements />
       
-      <div className={containerClasses}>
-        <div className={cardClasses}>
+      <div className={getContainerClasses(isRegistrationPage)}>
+        <div className={getCardClasses(isRegistrationPage)}>
           <div className="p-8">
             <InnerFloatingElements />
             <AuthHeader title={title} subtitle={subtitle} />
