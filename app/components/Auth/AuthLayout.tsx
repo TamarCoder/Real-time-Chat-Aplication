@@ -145,28 +145,50 @@ const AuthHeader = ({ title, subtitle }: { title: string; subtitle?: string }) =
 );
 
 const containerClasses = `
-  relative w-full h-[800px] max-w-[2000px] 
-  xl:max-w-[1600px] lg:max-w-[1200px] 
-  md:max-w-[900px] sm:max-w-full pt-5
+  relative w-full 
+  min-h-[600px] h-[80vh] max-h-[900px]
+  max-w-[450px]
+  xs:max-w-[550px]
+  sm:max-w-[650px]
+  md:max-w-[750px]
+  lg:max-w-[950px]
+  xl:max-w-[1150px]
+  2xl:max-w-[1350px]
+  3xl:max-w-[1550px]
+  4xl:max-w-[1750px]
+  5xl:max-w-[2000px]
+  mx-auto
 `;
 
 const cardClasses = `
   bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 
-  rounded-2xl p-8 shadow-2xl w-full h-full 
+  rounded-2xl shadow-2xl w-full h-full 
   flex flex-col justify-center
+  mx-4 my-3
+  xs:mx-6 xs:my-4
+  sm:mx-8 sm:my-5
+  md:mx-10 md:my-6
+  lg:mx-12 lg:my-7
+  xl:mx-16 xl:my-8
+  2xl:mx-20 2xl:my-10
+  3xl:mx-24 3xl:my-12
+  4xl:mx-28 4xl:my-14
+  5xl:mx-32 5xl:my-16
 `;
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitle }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center py-8">
       <BackgroundPattern />
       <FloatingElements />
       
       <div className={containerClasses}>
         <div className={cardClasses}>
-          <InnerFloatingElements />
-          <AuthHeader title={title} subtitle={subtitle} />
-          {children}
+          <div className="p-8">
+            <InnerFloatingElements />
+            <AuthHeader title={title} subtitle={subtitle} />
+            {children}
+          </div>
         </div>
       </div>
     </div>
