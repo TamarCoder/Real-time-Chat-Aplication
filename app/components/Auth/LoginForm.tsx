@@ -35,6 +35,7 @@ const LoginForm = () => {
         label="Password"
         name="password"
         type="password"
+        autoComplete="new-confirm-password"
         placeholder="Enter your password"
         required
         icon={

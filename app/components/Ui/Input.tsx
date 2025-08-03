@@ -1,8 +1,6 @@
 "use client";
 import { ChangeEvent, useState } from "react";
 
-//ChangeEvent -  TypeScript-ს ეუბნება, თუ რა სახის ივენთი უნდა მოვიდეს onChange ფუნქციაში.
-
 interface InputProps {
   label?: string;
   type?: string;
@@ -14,6 +12,8 @@ interface InputProps {
   required?: boolean;
   className?: string;
   icon?: React.ReactNode;
+  autoComplete?: string;
+   terms?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,8 +23,10 @@ const Input: React.FC<InputProps> = ({
   value,
   onChange,
   error,
+  autoComplete,
   disabled = false,
   required = false,
+  terms = false,
   className = "",
   icon,
 }) => {
@@ -52,6 +54,7 @@ const Input: React.FC<InputProps> = ({
           placeholder={placeholder}
           disabled={disabled}
           required={required}
+          autoComplete={autoComplete}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={`
@@ -75,23 +78,16 @@ const Input: React.FC<InputProps> = ({
             ${isFocused ? "shadow-lg shadow-purple-500/10" : ""}
           `}
         />
-      </div>
 
-      {error && (
-        <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          {error}
-        </p>
-      )}
+        {error && (
+          <div className="absolute -top-1 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded shadow-lg z-10">
+            {error}
+            <div className="absolute bottom-0 left-1/2 transform translate-y-full -translate-x-1/2 border-4 border-transparent border-t-red-500"></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-
-export default Input
+export default Input;

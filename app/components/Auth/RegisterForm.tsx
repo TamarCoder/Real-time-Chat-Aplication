@@ -1,18 +1,45 @@
+"use client";
 import React from "react";
-import FormInput from "./FormInput";
 import Button from "../Ui/Button";
 import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+import FormInput from "./FormInput";
+ 
+import { RegisterSchema } from "./RegisteSchema";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+interface IFormInput {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const RegisterForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>({
+    resolver: yupResolver(RegisterSchema),
+ 
+  });
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log(" Form submitted with data:", data);
+  };
+
   return (
-    <form className="space-y-6">
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
       {/* Username Input */}
       <FormInput
         label="Username"
-        name="username"
         type="text"
-        placeholder="Choose a username"
         required
+        placeholder="Choose a username"
+        autoComplete="username"
+        error={errors.username?.message} 
+        {...register("username")}
         icon={
           <svg
             className="w-5 h-5"
@@ -33,10 +60,12 @@ const RegisterForm = () => {
       {/* Email Input */}
       <FormInput
         label="Email Address"
-        name="email"
         type="email"
-        placeholder="Enter your email"
         required
+        placeholder="Enter your email"
+        autoComplete="email"
+        error={errors.email?.message} 
+        {...register("email")}
         icon={
           <svg
             className="w-5 h-5"
@@ -57,10 +86,12 @@ const RegisterForm = () => {
       {/* Password Input */}
       <FormInput
         label="Password"
-        name="password"
         type="password"
-        placeholder="Create a password"
         required
+        error={errors.password?.message} 
+        placeholder="Create a password"
+        autoComplete="new-password"
+        {...register("password")}
         icon={
           <svg
             className="w-5 h-5"
@@ -77,14 +108,17 @@ const RegisterForm = () => {
           </svg>
         }
       />
+    
 
       {/* Confirm Password Input */}
       <FormInput
         label="Confirm Password"
-        name="confirmPassword"
         type="password"
         placeholder="Confirm your password"
+        autoComplete="new-password"
+        error={errors.confirmPassword?.message} 
         required
+        {...register("confirmPassword")}
         icon={
           <svg
             className="w-5 h-5"
@@ -134,7 +168,7 @@ const RegisterForm = () => {
           type="submit"
           variant="primary"
           size="lg"
-          className="flex items-center gap-3 w-[70%] h-[56px] bg-amber-400"
+          className="flex items-center gap-3 w-[70%] h-[56px] bg-amber-400 cursor-pointer"
         >
           Create Account
         </Button>
