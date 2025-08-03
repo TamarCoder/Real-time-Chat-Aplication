@@ -1,102 +1,17 @@
-// src/components/auth/RegisterForm.tsx
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React from "react";
 import FormInput from "./FormInput";
 import Button from "../Ui/Button";
 import Link from "next/link";
 
-interface RegisterFormData {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-interface RegisterFormErrors {
-  username?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  general?: string;
-}
-
-interface RegisterFormProps {
-  onSubmit: (data: Omit<RegisterFormData, "confirmPassword">) => Promise<void>;
-  isLoading?: boolean;
-}
-
-const RegisterForm: React.FC<RegisterFormProps> = ({
-  onSubmit,
-  isLoading = false,
-}) => {
-  const [formData, setFormData] = useState<RegisterFormData>({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const [errors, setErrors] = useState<RegisterFormErrors>({});
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error for this field when user starts typing
-    if (errors[name as keyof RegisterFormErrors]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: undefined,
-      }));
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Clear previous errors
-    setErrors({});
-
-    try {
-      // Remove confirmPassword from data before sending
-      const { confirmPassword, ...submitData } = formData;
-      await onSubmit(submitData);
-    } catch (error) {
-      setErrors({
-        general: "Registration failed. Please try again.",
-      });
-    }
-  };
-
+const RegisterForm = () => {
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* General Error */}
-      {errors.general && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-          <p className="text-red-400 text-sm flex items-center gap-2">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            {errors.general}
-          </p>
-        </div>
-      )}
-
+    <form className="space-y-6">
       {/* Username Input */}
       <FormInput
         label="Username"
         name="username"
         type="text"
         placeholder="Choose a username"
-        value={formData.username}
-        onChange={handleChange}
-        error={errors.username}
         required
         icon={
           <svg
@@ -121,9 +36,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         name="email"
         type="email"
         placeholder="Enter your email"
-        value={formData.email}
-        onChange={handleChange}
-        error={errors.email}
         required
         icon={
           <svg
@@ -148,9 +60,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         name="password"
         type="password"
         placeholder="Create a password"
-        value={formData.password}
-        onChange={handleChange}
-        error={errors.password}
         required
         icon={
           <svg
@@ -175,9 +84,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         name="confirmPassword"
         type="password"
         placeholder="Confirm your password"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        error={errors.confirmPassword}
         required
         icon={
           <svg
@@ -196,9 +102,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         }
       />
 
-      <div className="flex flex-col  items-center justify-center  ">
+      <div className="flex flex-col items-center justify-center">
         {/* Terms and Conditions */}
-        <div className="flex items-center gap-3 w-[70%] h-[35px] ">
+        <div className="flex items-center gap-3 w-[70%] h-[35px]">
           <input
             type="checkbox"
             id="terms"
@@ -228,10 +134,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           type="submit"
           variant="primary"
           size="lg"
-          isLoading={isLoading}
-          className="flex items-center gap-3 w-[70%] h-[56px]  bg-amber-400"
+          className="flex items-center gap-3 w-[70%] h-[56px] bg-amber-400"
         >
-          {isLoading ? "Creating Account..." : "Create Account"}
+          Create Account
         </Button>
       </div>
 

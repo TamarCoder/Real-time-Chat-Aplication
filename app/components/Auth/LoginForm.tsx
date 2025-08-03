@@ -1,94 +1,17 @@
-// src/components/auth/LoginForm.tsx
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React from "react";
 import Button from "../Ui/Button";
 import Link from "next/link";
 import FormInput from "./FormInput";
 
-interface LoginFormData {
-  username: string;
-  password: string;
-}
-
-interface LoginFormErrors {
-  username?: string;
-  password?: string;
-  general?: string;
-}
-
-interface LoginFormProps {
-  onSubmit: (data: LoginFormData) => Promise<void>;
-  isLoading?: boolean;
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({
-  onSubmit,
-  isLoading = false,
-}) => {
-  const [formData, setFormData] = useState<LoginFormData>({
-    username: "",
-    password: "",
-  });
-
-  const [errors, setErrors] = useState<LoginFormErrors>({});
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error for this field when user starts typing
-    if (errors[name as keyof LoginFormErrors]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: undefined,
-      }));
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Clear previous errors
-    setErrors({});
-
-    try {
-      await onSubmit(formData);
-    } catch (error) {
-      setErrors({
-        general: "Login failed. Please check your credentials.",
-      });
-    }
-  };
-
+const LoginForm = () => {
   return (
-    <form onSubmit={handleSubmit} className="space-y-6   ">
-      {/* General Error */}
-      {errors.general && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-          <p className="text-red-400 text-sm flex items-center gap-2">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            {errors.general}
-          </p>
-        </div>
-      )}
-
+    <form className="space-y-6">
       {/* Username Input */}
       <FormInput
         label="Username"
         name="username"
         type="text"
         placeholder="Enter your username"
-        value={formData.username}
-        onChange={handleChange}
-        error={errors.username}
         required
         icon={
           <svg
@@ -113,9 +36,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
         name="password"
         type="password"
         placeholder="Enter your password"
-        value={formData.password}
-        onChange={handleChange}
-        error={errors.password}
         required
         icon={
           <svg
@@ -135,11 +55,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
       />
 
       {/* Forgot Password Link */}
-
       <div
-        className="text-right w-[70%] h-[45px]  flex flex-col   justify-center gap-3"
+        className="text-right w-[70%] h-[45px] flex flex-col justify-center gap-3"
         style={{
-          marginLeft: '15%',
+          marginLeft: "15%",
         }}
       >
         <a
@@ -156,10 +75,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
           type="submit"
           variant="primary"
           size="lg"
-          isLoading={isLoading}
           className="w-[70%] h-[56px]"
         >
-          {isLoading ? "Signing in..." : "Sign In"}
+          Sign In
         </Button>
 
         <div className="text-center mt-6">
@@ -174,7 +92,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </p>
         </div>
       </div>
-      {/* Register Link */}
     </form>
   );
 };

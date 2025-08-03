@@ -2,15 +2,15 @@
 import React, { ChangeEvent } from "react";
 
 interface FormInputProps {
-  label: string;
+  label?: string;
   type?: string;
   placeholder?: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   required?: boolean;
   icon?: React.ReactNode;
-  name: string;
+  name?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -34,8 +34,6 @@ const FormInput: React.FC<FormInputProps> = ({
           {label}
           {required && <span className="text-purple-400 ml-1">*</span>}
         </label>
-
-
         <div className="relative flex items-center">
           {icon && (
             <div className="absolute left-4 z-20 flex items-center justify-center text-slate-400 pointer-events-none">
@@ -76,7 +74,6 @@ const FormInput: React.FC<FormInputProps> = ({
           />
         </div>
       </div>
-
       {error && (
         <p className="mt-2 text-sm text-red-400 flex items-center gap-2">
           <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
