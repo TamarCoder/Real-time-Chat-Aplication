@@ -4,7 +4,7 @@ import Button from "../Ui/Button";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "./FormInput";
- 
+import { useAuthStore } from "../../stores/authStore";
 import { RegisterSchema } from "./RegisteSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -16,21 +16,43 @@ interface IFormInput {
 }
 
 const RegisterForm = () => {
+  const { register: authRegister, isLoading, error } = useAuthStore();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInput>({
     resolver: yupResolver(RegisterSchema),
- 
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(" Form submitted with data:", data);
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try {
+      await authRegister(data);
+      alert("Registration completed successfully !");
+    } catch (error) {
+      console.log("Registration error", error);
+    }
   };
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      {/* AuthorStore Errors */}
+
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p4">
+          <p className="text-red-400 text-sm flex item-center  gap-2">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </p>
+        </div>
+      )}
+
       {/* Username Input */}
       <FormInput
         label="Username"
@@ -38,7 +60,7 @@ const RegisterForm = () => {
         required
         placeholder="Choose a username"
         autoComplete="username"
-        error={errors.username?.message} 
+        error={errors.username?.message}
         {...register("username")}
         icon={
           <svg
@@ -64,7 +86,7 @@ const RegisterForm = () => {
         required
         placeholder="Enter your email"
         autoComplete="email"
-        error={errors.email?.message} 
+        error={errors.email?.message}
         {...register("email")}
         icon={
           <svg
@@ -88,7 +110,7 @@ const RegisterForm = () => {
         label="Password"
         type="password"
         required
-        error={errors.password?.message} 
+        error={errors.password?.message}
         placeholder="Create a password"
         autoComplete="new-password"
         {...register("password")}
@@ -108,7 +130,6 @@ const RegisterForm = () => {
           </svg>
         }
       />
-    
 
       {/* Confirm Password Input */}
       <FormInput
@@ -116,7 +137,7 @@ const RegisterForm = () => {
         type="password"
         placeholder="Confirm your password"
         autoComplete="new-password"
-        error={errors.confirmPassword?.message} 
+        error={errors.confirmPassword?.message}
         required
         {...register("confirmPassword")}
         icon={
@@ -165,12 +186,14 @@ const RegisterForm = () => {
 
         {/* Submit Button */}
         <Button
+          isLoading={isLoading}
+          disabled={isLoading}
           type="submit"
           variant="primary"
           size="lg"
           className="flex items-center gap-3 w-[70%] h-[56px] bg-amber-400 cursor-pointer"
         >
-          Create Account
+          {isLoading ? "Creating Account..." : "Create Account"}
         </Button>
       </div>
 
