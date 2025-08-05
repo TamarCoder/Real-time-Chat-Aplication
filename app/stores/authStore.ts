@@ -221,6 +221,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
           isLoading: false,
           error: result // "Username already exists" or "Passwords don't match"
         });
+        throw new Error(result)
       }else{
         //succes case: result is user object
         localStorage.setItem("currentUser", JSON.stringify(result));
