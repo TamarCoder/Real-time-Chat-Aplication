@@ -35,12 +35,17 @@ const RegisterForm = () => {
   };
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-6 flex flex-col " onSubmit={handleSubmit(onSubmit)}>
       {/* AuthorStore Errors */}
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-          <p className="text-red-400 text-sm flex items-center gap-2">
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg w-[550px] h-[40px] flex items-center  text-center justify-center"
+        style={{
+                 marginLeft: '13%',
+                 marginTop:'2%'
+              }}
+        >
+          <p className="text-red-400 text-sm flex items-center  text-center justify-center gap-2">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="..." clipRule="evenodd" />
             </svg>
