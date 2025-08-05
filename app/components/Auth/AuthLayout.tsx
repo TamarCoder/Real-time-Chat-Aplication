@@ -146,10 +146,10 @@ const AuthHeader = ({ title, subtitle }: { title: string; subtitle?: string }) =
 );
 
 const getContainerClasses = (isRegistrationPage = false) => `
-  relative w-full 
+  relative w-full  
   ${isRegistrationPage 
-    ? 'min-h-[750px] h-auto' 
-    : 'min-h-[750px] h-[30vh] max-h-[700px]'
+    ? 'min-h-auto h-auto' 
+    : 'min-h-auto'
   }
   max-w-[450px]
   xs:max-w-[550px]
