@@ -16,7 +16,7 @@ import { create } from "zustand";
 // ეს არის ერთი ფალსო მომხმარებლის ტიპი მონაცემთა ბაზის იმიტაციისთვის
 type MockUser = {
   id: number; // მომხმარებლის უნიკალური ID
-  username: string; // მომხმარებლის სახელი
+  userName: string; // მომხმარებლის სახელი
   email: string; // ელ-ფოსტა
   password: string; // პაროლი (plain text ფორმატში mock-ისთვის)
   avatar: string; // პროფილის სურათის URL
@@ -26,7 +26,7 @@ type MockUser = {
 // ეს ფუნქცია ინახავს მომხმარებლებს localStorage-ში და JSON.parse-ით აბრუნებს მათ array-ს სახით
 const getMockUsers = (): MockUser[] => {
   // localStorage-იდან ავიღოთ "mockUser" key-ით შენახული მონაცემები
-  const stored = localStorage.getItem("mockUser");
+  const stored = localStorage.getItem("mockUsers");
   // თუ რაიმეა შენახული, ვაბრუნებთ JSON.parse-ით გარდაქმნილ მონაცემებს
   if (stored) {
     return JSON.parse(stored);
@@ -37,7 +37,7 @@ const getMockUsers = (): MockUser[] => {
     // მომხმარებელი 1: ადმინისტრატორი
     {
       id: 1,
-      username: "admin",
+      userName: "admin",
       email: "admin@chatapp.com",
       password: "admin123",
       avatar: "https://api.dicebear.com/9.x/pixel-art/svg", // ავტომატურად გენერირებული ავატარი
@@ -46,7 +46,7 @@ const getMockUsers = (): MockUser[] => {
     // რეგულარული მომხმარებელი
     {
       id: 2,
-      username: "John",
+      userName: "John",
       email: "john@example.com",
       avatar: "https://api.dicebear.com/9.x/lorelei/svg",
       password: "password",
@@ -55,7 +55,7 @@ const getMockUsers = (): MockUser[] => {
     // მომხმარებელი 3: დემო მომხმარებელი
     {
       id: 3,
-      username: "demo",
+      userName: "demo",
       email: "demo@test.com",
       password: "demo",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=demo",
@@ -86,7 +86,7 @@ const mockLogin = async (
   const foundUser = users.find(
     (user) =>
       // მომხმარებლის სახელი უნდა ემთხვეოდეს  და პაროლი უნდა ემთხვეოდეს
-      user.username === creditians.username &&
+      user. userName === creditians. userName &&
       user.password === creditians.password
   );
   // ვალიდაციის ლოგიკა
@@ -94,7 +94,7 @@ const mockLogin = async (
     // თუ მომხმარებელი ნაპოვნია, ვქმნით User ობიექტს
     const user: User = {
       id: foundUser.id,
-      userName: foundUser.username,
+      userName: foundUser. userName,
       email: foundUser.email,
       avatar: foundUser.avatar,
       status: foundUser.status,
@@ -114,7 +114,7 @@ const mockRegister = async (
   const users = getMockUsers();
   // ვამოწმებთ მომხმარებლის სახელის უნიკალურობას
   const existingUser = users.find(
-    (user) => user.username === creditians.username
+    (user) => user. userName === creditians.username
   );
   // თუ მომხმარებლის სახელი უკვე არსებობს
   if (existingUser) {
@@ -127,7 +127,7 @@ const mockRegister = async (
   // ვქმნით ახალ მომხმარებელს
   const newMonkUser: MockUser = {
     id: users.length + 1, // ახალი ID (არსებული მომხმარებლების რაოდენობა + 1)
-    username: creditians.username,
+     userName: creditians.username,
     email: creditians.email,
     password: creditians.password,
     avatar: `https://api.dicebear.com/9.x/pixel-art/svg?seed=${creditians.username}`,
@@ -140,7 +140,7 @@ const mockRegister = async (
   // ვაბრუნებთ ახალ მომხმარებელს User ფორმატში
   const user: User = {
     id: newMonkUser.id,
-    userName: newMonkUser.username,
+    userName: newMonkUser.userName,
     email: newMonkUser.email,
     avatar: newMonkUser.avatar,
     status: newMonkUser.status,
@@ -179,6 +179,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
   isLoading: false, // არ იტვირთება
   error: null, // შეცდომა არ არის
 
+
   // შესვლის მოქმედება
   login: async (credentials: LoginCredentials) => {
     // ვაყენებთ ჩატვირთვის მდგომარეობას
@@ -195,6 +196,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
           isLoading: false, // ჩატვირთვა დასრულდა
           error: null, // შეცდომა არ არის
         });
+         return; 
       } else {
         set({
           isLoading: false,

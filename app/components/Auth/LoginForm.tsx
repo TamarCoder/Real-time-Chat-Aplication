@@ -2,16 +2,61 @@ import React from "react";
 import Button from "../Ui/Button";
 import Link from "next/link";
 import FormInput from "./FormInput";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { userSchema } from "./loginSchema";
+import { useAuthStore } from "../../stores/authStore";
+
+interface usersInputs {
+  userName: string;
+  password: string;
+}
 
 const LoginForm = () => {
+  const { login: login, isLoading, error } = useAuthStore();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<usersInputs>({
+    resolver: yupResolver(userSchema),
+  });
+
+  const onSubmit: SubmitHandler<usersInputs> = async (data) => {
+    try {
+      await login(data);
+    } catch (error) {
+      console.log("Login error", error);
+    }
+  };
+
   return (
-    <form className="space-y-6">
-      {/* Username Input */}
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      {error && (
+        <div
+          className="bg-red-500/10 border border-red-500/20 rounded-lg w-[550px] h-[40px] flex items-center  text-center justify-center"
+          style={{
+            marginLeft: "13%",
+            marginTop: "2%",
+          }}
+        >
+          <p className="text-red-400 text-sm flex items-center  text-center justify-center gap-2">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="..." clipRule="evenodd" />
+            </svg>
+            {error}
+          </p>
+        </div>
+      )}
+      
       <FormInput
+        {...register("userName")}
         label="Username"
-        name="username"
+        name="userName"
         type="text"
         placeholder="Enter your username"
+        error={errors.userName?.message}
         required
         icon={
           <svg
@@ -29,12 +74,12 @@ const LoginForm = () => {
           </svg>
         }
       />
-
-      {/* Password Input */}
       <FormInput
+        {...register("password")}
         label="Password"
         name="password"
         type="password"
+        error={errors.password?.message}
         autoComplete="new-confirm-password"
         placeholder="Enter your password"
         required
@@ -76,7 +121,9 @@ const LoginForm = () => {
           type="submit"
           variant="primary"
           size="lg"
-          className="w-[70%] h-[56px]"
+          className="w-[70%] h-[56px] cursor-pointer"
+          isLoading={isLoading}
+          disabled={isLoading}
         >
           Sign In
         </Button>

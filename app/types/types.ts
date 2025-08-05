@@ -18,7 +18,7 @@ export interface AuthState {
 
 //ogin/register  froms
 export interface LoginCredentials {
-    username: string;   
+     userName: string;   
     password: string;  
 }
 export interface RegisterCredentials {
