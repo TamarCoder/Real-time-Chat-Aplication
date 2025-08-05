@@ -29,7 +29,7 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       await authRegister(data);
-      alert("Registration completed successfully !");
+       
     } catch (error) {
       console.log("Registration error", error);
     }
