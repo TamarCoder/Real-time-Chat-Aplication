@@ -137,8 +137,8 @@ const AuthHeader = ({ title, subtitle }: { title: string; subtitle?: string }) =
     <ChatAppLogo
       centered={true}
       width={400}
-      height={150}
-      className="mb-4 transform translate-x-4"
+      height={120}
+      className="mb-4 transform translate-x-4 "
     />
     <h1 className="text-3xl font-bold text-white mb-2">{title}</h1>
     {subtitle && <p className="text-slate-400 text-sm">{subtitle}</p>}
