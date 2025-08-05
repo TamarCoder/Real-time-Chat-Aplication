@@ -1,48 +1,43 @@
+// ვიმპორტებთ path-ის resolve ფუნქციას ფაილების გზების გადასაჭრელად
 import { resolve } from "path";
-import {
-  AuthActions,
-  AuthState,
-  LoginCredentials,
-  RegisterCredentials,
-  User,
-  UserStatus,
-} from "../types/types";
+// ვიმპორტებთ საჭირო ტიპებს - Authentication-ის მოქმედებები, მდგომარეობა, მომხმარებლის მონაცემები
+import {AuthActions,AuthState,LoginCredentials, RegisterCredentials, User,UserStatus,} from "../types/types";
+// ვიმპორტებთ zustand-ს store-ის შესაქმნელად (state management-ისთვის)
 import { create } from "zustand";
-import { error } from "console";
-import { set } from "date-fns";
+ 
 
-// Mock
-// this is to what containe one user.
+// Mock - ქმნის იმიტირებულ  მონაცემებს 
+// ეს არის ერთი ფალსო მომხმარებლის ტიპი მონაცემთა ბაზის იმიტაციისთვის
 type MockUser = {
-  id: number;
-  username: string;
-  email: string;
-  password: string; // plain text (mock-ისთვის)
-  avatar: string; // default avatar URL
-  status: UserStatus; // default status
+  id: number;        // მომხმარებლის უნიკალური ID
+  username: string;  // მომხმარებლის სახელი
+  email: string;     // ელ-ფოსტა
+  password: string;  // პაროლი (plain text ფორმატში mock-ისთვის)
+  avatar: string;    // პროფილის სურათის URL
+  status: UserStatus; // მომხმარებლის სტატუსი (online, offline, away)
 };
 
-// thinb funqtion save one user in loval storajen , \
-//  and with json pars tostirng returen me array
-
+// ეს ფუნქცია ინახავს მომხმარებლებს localStorage-ში და JSON.parse-ით აბრუნებს მათ array-ს სახით
 const getMockUsers = (): MockUser[] => {
+  // localStorage-იდან ავიღოთ "mockUser" key-ით შენახული მონაცემები
   const stored = localStorage.getItem("mockUser");
-
+  // თუ რაიმეა შენახული, ვაბრუნებთ JSON.parse-ით გარდაქმნილ მონაცემებს
   if (stored) {
     return JSON.parse(stored);
   }
-  // we  create   fake backand to  get users info
+  // თუ არაფერია შენახული, ვქმნით სტანდარტულ ყალბ მომხმარებლებს
+  // ვქმნით fake backend-ს მომხმარებელთა ინფორმაციის მისაღებად
   const defaultUSers: MockUser[] = [
-    // user 1 : Admin;
+    // მომხმარებელი 1: ადმინისტრატორი
     {
       id: 1,
       username: "admin",
       email: "admin@chatapp.com",
       password: "admin123",
-      avatar: "https://api.dicebear.com/9.x/pixel-art/svg",
+      avatar: "https://api.dicebear.com/9.x/pixel-art/svg", // ავტომატურად გენერირებული ავატარი
       status: "online",
     },
-    //regular user
+    // რეგულარული მომხმარებელი
     {
       id: 2,
       username: "John",
@@ -51,40 +46,42 @@ const getMockUsers = (): MockUser[] => {
       password: "password",
       status: "online",
     },
-    // User 3: Demo user
+    // მომხმარებელი 3: დემო მომხმარებელი
     {
       id: 3,
       username: "demo",
       email: "demo@test.com",
       password: "demo",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=demo",
-      status: "away",
+      status: "away", // გაშორებული სტატუსი
     },
   ];
 
+  // ვაბრუნებთ სტანდარტულ მომხმარებელთა სიას
   return defaultUSers;
 };
 
+// ეს ფუნქცია ინახავს mock მომხმარებლებს localStorage-ში
 const saveMonckUsers = (users: MockUser[]): void => {
+  // ვინახავთ მომხმარებელთა array-ს JSON string-ად localStorage-ში
   localStorage.setItem("mockUsers", JSON.stringify(users));
 };
 
-const mockLogin = async (
-  creditians: LoginCredentials
-): Promise<User | null> => {
-
-  //Loading simulation 
+// მომხმარებლის  შესვლის პროცესს - ამოწმებს credentials-ებს
+const mockLogin = async (creditians: LoginCredentials): Promise<User | null> => {
+  // იმიტირებს ჩატვირთვის დროს (2 წამი)
+  // ეს აჩვენებს loading state-ს რეალისტური გამოცდილებისთვის
   await new Promise((resolve) => setTimeout(resolve, 2000));
-  //Get users from localStorage
+  // ვიღებთ მომხმარებლებს localStorage-იდან
   const users = getMockUsers();
-  //Find matching user
-  const foundUser = users.find(
-    (user) =>
-      user.username === creditians.username &&
-      user.password === creditians.password
+  // ვეძებთ მომხმარებელს რომელიც ემთხვევა მოწოდებულ credentials-ებს
+  const foundUser = users.find((user) =>
+    // მომხმარებლის სახელი უნდა ემთხვეოდეს  და პაროლი უნდა ემთხვეოდეს
+      user.username === creditians.username && user.password === creditians.password     
   );
-   //Validation logic
+   // ვალიდაციის ლოგიკა
   if (foundUser) {
+    // თუ მომხმარებელი ნაპოვნია, ვქმნით User ობიექტს
     const user: User = {
       id: foundUser.id,
       userName: foundUser.username,
@@ -92,45 +89,41 @@ const mockLogin = async (
       avatar: foundUser.avatar,
       status: foundUser.status,
     };
-    return user;   //Success - User object
+    return user;   // წარმატება - ვაბრუნებთ User ობიექტს
   }
-  return null;
+  return null; // მომხმარებელი ვერ მოიძებნა
 };
 
-const mockRegister = async (
-  creditians: RegisterCredentials
-): Promise<User | string> => {
-  //Loading simulation 
+// მომხმარტებლის  რეგისტრაციის პროცესს
+const mockRegister = async (creditians: RegisterCredentials): Promise<User | string> => {
+  // იმიტირებს ჩატვირთვის დროს (1.5 წამი)
   await new Promise((resolve) => setTimeout(resolve, 1500));
-   //Get existing users 
+  // ვიღებთ არსებულ მომხმარებლებს
   const users = getMockUsers();
-    //Check username uniqueness 
-  const existingUser = users.find(
-    (user) => user.username === creditians.username
-  );
-
+  // ვამოწმებთ მომხმარებლის სახელის უნიკალურობას
+  const existingUser = users.find((user) => user.username === creditians.username);
+  // თუ მომხმარებლის სახელი უკვე არსებობს
   if (existingUser) {
-    return " UserName already exists";
+    return " UserName already exists"; // ვაბრუნებთ შეცდომის მესიჯს
   }
-  //Password confirmation validation
+  // ვამოწმებთ პაროლის დადასტურების ვალიდაციას
   if (creditians.password !== creditians.confirmPassword) {
-    return "Password don't match";
+    return "Password don't match"; // პაროლები არ ემთხვევა
   }
-
-  //Create new user 
+  // ვქმნით ახალ მომხმარებელს
   const newMonkUser: MockUser = {
-    id: users.length + 1,
+    id: users.length + 1, // ახალი ID (არსებული მომხმარებლების რაოდენობა + 1)
     username: creditians.username,
     email: creditians.email,
     password: creditians.password,
     avatar: `https://api.dicebear.com/9.x/pixel-art/svg?seed=${creditians.username}`,
-    status: "offline",
+    status: "offline", // ახალი მომხმარებლები offline სტატუსით იწყებენ
   };
-
-  //Save to localStorage
-  users.push(newMonkUser);
-  saveMonckUsers(users);
-  //Return new user 
+  // ვინახავთ localStorage-ში
+  users.push(newMonkUser); // ვამატებთ ახალ მომხმარებელს სიაში
+  saveMonckUsers(users);   // ვინახავთ განახლებულ სიას
+  
+  // ვაბრუნებთ ახალ მომხმარებელს User ფორმატში
   const user: User = {
     id: newMonkUser.id,
     userName: newMonkUser.username,
@@ -138,102 +131,94 @@ const mockRegister = async (
     avatar: newMonkUser.avatar,
     status: newMonkUser.status,
   };
-
-  return user;
+  return user; 
 };
 
-// Zustand Store.
+// Zustand Store - აქ იწყება მთავარი state management
 
+// ამოწმებს არის თუ არა მომხმარებელი უკვე შესული (authentication check)
 const checkAuth = (): User | null => {
-
-  // Get current user from localStorage
+  // ვიღებთ მიმდინარე მომხმარებელს localStorage-იდან
   const stored = localStorage.getItem("currentUser");
   if (!stored) {
-    return null;
+    return null; // არაფერია შენახული
   }
-  //JSON Parse & Validation
+  // JSON Parse და ვალიდაცია
   try {
-    const user = JSON.parse(stored) as User;
-     // Basic validation
+    const user = JSON.parse(stored) as User; // ვცდილობთ JSON-ის parse-ს
+    // ძირითადი ვალიდაცია - ვამოწმებთ არის თუ არა საჭირო ველები
     if (user && user.id && user.userName && user.email) {
-      return user; // Valid user object
-
+      return user; // ვალიდური მომხმარებლის ობიექტი
     }
-    return null; //Invalid user structure
+    return null; // არავალიდური მომხმარებლის სტრუქტურა
   } catch (error) {
-    // JSON parse error
-
+    // JSON parse-ის შეცდომა
     return null;
   }
 };
 
+// ვექმნით zustand store-ს AuthState და AuthActions-ის combination-ით
 export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
-  //Initial State
-  user: null,
-  isAuthenticated: false,
-  isLoading: false,
-  error: null,
+  // საწყისი მდგომარეობა
+  user: null,              // არცერთი მომხმარებელი არ არის შესული
+  isAuthenticated: false,  // არ არის ავტორიზებული
+  isLoading: false,        // არ იტვირთება
+  error: null,            // შეცდომა არ არის
 
-  // Login Action
+  // შესვლის მოქმედება
   login: async (credentials: LoginCredentials) => {
-    // Set loading state
+    // ვაყენებთ ჩატვირთვის მდგომარეობას
     try {
-      set({ isLoading: true, error: null });
-
-      // Call mock login
+      set({ isLoading: true, error: null }); // იწყება ჩატვირთვა, შეცდომები იშლება
+      // ვუწოდებთ mock login ფუნქციას
       const user = await mockLogin(credentials);
-
       if (user) {
-        // Success: Save to localStorage and update state
+      //ვინახავთ localStorage-ში და ვანახლებთ state-ს
         localStorage.setItem("currentUser", JSON.stringify(user));
         set({
-          user, 
-          isAuthenticated: true,
-          isLoading: false,  
-          error: null,
+          user,                    // მომხმარებლის ობიექტი
+          isAuthenticated: true,   // ავტორიზება წარმატებულია
+          isLoading: false,        // ჩატვირთვა დასრულდა
+          error: null,            // შეცდომა არ არის
         });
       } else {
-         // Failure: Invalid credentials
         set({
           isLoading: false,
-          error: "Invalid username or password",
+          error: "Invalid username or password", // შეცდომის მესიჯი
         });
       }
     } catch (error) {
-      // Error handling
       set({
         isLoading: false,
-        error: "Login failed. Please try again.",
+        error: "Login failed. Please try again.", // ზოგადი შეცდომის მესიჯი
       });
     }
   },
 
-
-  // Register Action
+  // რეგისტრაცია
   register: async (credentials: RegisterCredentials) => {
     try{
-      set({isLoading: true, error : null});
-      const result =  await mockRegister(credentials);
-
+      set({isLoading: true, error : null}); // იწყება ჩატვირთვა
+      const result =  await mockRegister(credentials); // ვუწოდებთ mock register-ს
       if(typeof result === 'string'){
-        // Error case: result is error message
+        // შეცდომის შემთხვევა: result არის შეცდომის მესიჯი
        set({
           isLoading: false,
-          error: result // "Username already exists" or "Passwords don't match"
+          error: result // "Username already exists" ან "Passwords don't match"
         });
-        throw new Error(result)
+        throw new Error(result) // ვისვრით შეცდომას
       }else{
-        //succes case: result is user object
+        // წარმატების შემთხვევა: result არის user ობიექტი
         localStorage.setItem("currentUser", JSON.stringify(result));
-
         set({
-          user: result,
-          isAuthenticated: true,
-          isLoading: false,
-          error:null
+          user: result,            // ახალი მომხმარებელი
+          isAuthenticated: true,   // ავტორიზება წარმატებულია
+          isLoading: false,        // ჩატვირთვა დასრულდა
+          error:null              // შეცდომა არ არის
         });
       }
     }catch(error){
+       // ზოგადი შეცდომის დამუშავება
        set({
         isLoading: false,
         error:"Registration failed. Please try again"
@@ -241,13 +226,11 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
     }
   },
 
-
+  // გამოსვლის მოქმედება
   logout: () => {
-    //clear localStorage
-
+    // ვასუფთავებთ localStorage-ს
     localStorage.removeItem("currentUser");
-
-    //reset state
+    // ვანულებთ state-ს
     set({
       user: null,
       isAuthenticated: false,
@@ -256,12 +239,12 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
     })
   },
 
-  //checkAuth Action
+  // ავტორიზაციის შემოწმების მოქმედება
   checkAuth: () => {
-    const user =  checkAuth() // call checkAuth  function. 
+    const user =  checkAuth() // ვუწოდებთ checkAuth ფუნქციას
 
     if(user) {
-      //valid session found
+      // ვალიდური სესია ნაპოვნია
       set({
         user,
         isAuthenticated: true,
@@ -269,6 +252,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
         error: null
       })
     }else{
+      // სესია არ მოიძებნა ან არავალიდურია
       set({
         user:null,
         isAuthenticated:false,
@@ -276,33 +260,30 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
         error: null
       })
     }
-
   },
-  // setloading Action
+  
+  // ჩატვირთვის მდგომარეობის დაყენების მოქმედება
   setLoading: (loading : boolean) => {
-    set({isLoading : loading})
+    set({isLoading : loading}) // მარტივად ანახლებს loading state-ს
   },
+  
+  // მომხმარებლის დაყენების მოქმედება
   setUser : (user: User | null) => {
     set({
       user,
-      isAuthenticated: user !== null
+      isAuthenticated: user !== null // თუ user არის null, isAuthenticated ყოფილა false
     })
   },
+  
+  // პროფილის განახლების მოქმედება
   updateProfile : (updates :  Partial <User>) => {
-      const currentUser = get().user;
-
+      const currentUser = get().user; // ვიღებთ მიმდინარე მომხმარებელს
       if(currentUser){
-        const updateUser = {...currentUser, ...updates}
-
-        //update LocalStorage 
-
-        localStorage.set("currentUser", JSON.stringify(updateUser));
-
-        //update state
-
+        const updateUser = {...currentUser, ...updates} // ვაერთიანებთ არსებულ მონაცემებს ახალ განახლებებთან
+        // ვანახლებთ localStorage-ს
+        localStorage.setItem("currentUser", JSON.stringify(updateUser)); // შეცდომა: უნდა იყოს setItem
+        // ვანახლებთ state-ს
         set({user: updateUser})
       }
   }
-
-
 }));
