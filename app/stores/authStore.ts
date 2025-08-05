@@ -1,19 +1,25 @@
 // ვიმპორტებთ path-ის resolve ფუნქციას ფაილების გზების გადასაჭრელად
 import { resolve } from "path";
 // ვიმპორტებთ საჭირო ტიპებს - Authentication-ის მოქმედებები, მდგომარეობა, მომხმარებლის მონაცემები
-import {AuthActions,AuthState,LoginCredentials, RegisterCredentials, User,UserStatus,} from "../types/types";
+import {
+  AuthActions,
+  AuthState,
+  LoginCredentials,
+  RegisterCredentials,
+  User,
+  UserStatus,
+} from "../types/types";
 // ვიმპორტებთ zustand-ს store-ის შესაქმნელად (state management-ისთვის)
 import { create } from "zustand";
- 
 
-// Mock - ქმნის იმიტირებულ  მონაცემებს 
+// Mock - ქმნის იმიტირებულ  მონაცემებს
 // ეს არის ერთი ფალსო მომხმარებლის ტიპი მონაცემთა ბაზის იმიტაციისთვის
 type MockUser = {
-  id: number;        // მომხმარებლის უნიკალური ID
-  username: string;  // მომხმარებლის სახელი
-  email: string;     // ელ-ფოსტა
-  password: string;  // პაროლი (plain text ფორმატში mock-ისთვის)
-  avatar: string;    // პროფილის სურათის URL
+  id: number; // მომხმარებლის უნიკალური ID
+  username: string; // მომხმარებლის სახელი
+  email: string; // ელ-ფოსტა
+  password: string; // პაროლი (plain text ფორმატში mock-ისთვის)
+  avatar: string; // პროფილის სურათის URL
   status: UserStatus; // მომხმარებლის სტატუსი (online, offline, away)
 };
 
@@ -68,18 +74,22 @@ const saveMonckUsers = (users: MockUser[]): void => {
 };
 
 // მომხმარებლის  შესვლის პროცესს - ამოწმებს credentials-ებს
-const mockLogin = async (creditians: LoginCredentials): Promise<User | null> => {
+const mockLogin = async (
+  creditians: LoginCredentials
+): Promise<User | null> => {
   // იმიტირებს ჩატვირთვის დროს (2 წამი)
   // ეს აჩვენებს loading state-ს რეალისტური გამოცდილებისთვის
   await new Promise((resolve) => setTimeout(resolve, 2000));
   // ვიღებთ მომხმარებლებს localStorage-იდან
   const users = getMockUsers();
   // ვეძებთ მომხმარებელს რომელიც ემთხვევა მოწოდებულ credentials-ებს
-  const foundUser = users.find((user) =>
-    // მომხმარებლის სახელი უნდა ემთხვეოდეს  და პაროლი უნდა ემთხვეოდეს
-      user.username === creditians.username && user.password === creditians.password     
+  const foundUser = users.find(
+    (user) =>
+      // მომხმარებლის სახელი უნდა ემთხვეოდეს  და პაროლი უნდა ემთხვეოდეს
+      user.username === creditians.username &&
+      user.password === creditians.password
   );
-   // ვალიდაციის ლოგიკა
+  // ვალიდაციის ლოგიკა
   if (foundUser) {
     // თუ მომხმარებელი ნაპოვნია, ვქმნით User ობიექტს
     const user: User = {
@@ -89,19 +99,23 @@ const mockLogin = async (creditians: LoginCredentials): Promise<User | null> => 
       avatar: foundUser.avatar,
       status: foundUser.status,
     };
-    return user;   // წარმატება - ვაბრუნებთ User ობიექტს
+    return user; // წარმატება - ვაბრუნებთ User ობიექტს
   }
   return null; // მომხმარებელი ვერ მოიძებნა
 };
 
 // მომხმარტებლის  რეგისტრაციის პროცესს
-const mockRegister = async (creditians: RegisterCredentials): Promise<User | string> => {
+const mockRegister = async (
+  creditians: RegisterCredentials
+): Promise<User | string> => {
   // იმიტირებს ჩატვირთვის დროს (1.5 წამი)
   await new Promise((resolve) => setTimeout(resolve, 1500));
   // ვიღებთ არსებულ მომხმარებლებს
   const users = getMockUsers();
   // ვამოწმებთ მომხმარებლის სახელის უნიკალურობას
-  const existingUser = users.find((user) => user.username === creditians.username);
+  const existingUser = users.find(
+    (user) => user.username === creditians.username
+  );
   // თუ მომხმარებლის სახელი უკვე არსებობს
   if (existingUser) {
     return " UserName already exists"; // ვაბრუნებთ შეცდომის მესიჯს
@@ -121,8 +135,8 @@ const mockRegister = async (creditians: RegisterCredentials): Promise<User | str
   };
   // ვინახავთ localStorage-ში
   users.push(newMonkUser); // ვამატებთ ახალ მომხმარებელს სიაში
-  saveMonckUsers(users);   // ვინახავთ განახლებულ სიას
-  
+  saveMonckUsers(users); // ვინახავთ განახლებულ სიას
+
   // ვაბრუნებთ ახალ მომხმარებელს User ფორმატში
   const user: User = {
     id: newMonkUser.id,
@@ -131,7 +145,7 @@ const mockRegister = async (creditians: RegisterCredentials): Promise<User | str
     avatar: newMonkUser.avatar,
     status: newMonkUser.status,
   };
-  return user; 
+  return user;
 };
 
 // Zustand Store - აქ იწყება მთავარი state management
@@ -160,10 +174,10 @@ const checkAuth = (): User | null => {
 // ვექმნით zustand store-ს AuthState და AuthActions-ის combination-ით
 export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
   // საწყისი მდგომარეობა
-  user: null,              // არცერთი მომხმარებელი არ არის შესული
-  isAuthenticated: false,  // არ არის ავტორიზებული
-  isLoading: false,        // არ იტვირთება
-  error: null,            // შეცდომა არ არის
+  user: null, // არცერთი მომხმარებელი არ არის შესული
+  isAuthenticated: false, // არ არის ავტორიზებული
+  isLoading: false, // არ იტვირთება
+  error: null, // შეცდომა არ არის
 
   // შესვლის მოქმედება
   login: async (credentials: LoginCredentials) => {
@@ -173,13 +187,13 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
       // ვუწოდებთ mock login ფუნქციას
       const user = await mockLogin(credentials);
       if (user) {
-      //ვინახავთ localStorage-ში და ვანახლებთ state-ს
+        //ვინახავთ localStorage-ში და ვანახლებთ state-ს
         localStorage.setItem("currentUser", JSON.stringify(user));
         set({
-          user,                    // მომხმარებლის ობიექტი
-          isAuthenticated: true,   // ავტორიზება წარმატებულია
-          isLoading: false,        // ჩატვირთვა დასრულდა
-          error: null,            // შეცდომა არ არის
+          user, // მომხმარებლის ობიექტი
+          isAuthenticated: true, // ავტორიზება წარმატებულია
+          isLoading: false, // ჩატვირთვა დასრულდა
+          error: null, // შეცდომა არ არის
         });
       } else {
         set({
@@ -197,35 +211,38 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
   // რეგისტრაცია
   register: async (credentials: RegisterCredentials) => {
-    try{
-      set({isLoading: true, error : null}); // იწყება ჩატვირთვა
-      const result =  await mockRegister(credentials); // ვუწოდებთ mock register-ს
-      if(typeof result === 'string'){
+    try {
+      set({ isLoading: true, error: null }); // იწყება ჩატვირთვა
+      const result = await mockRegister(credentials); // ვუწოდებთ mock register-ს
+
+      if (typeof result === "string") {
         // შეცდომის შემთხვევა: result არის შეცდომის მესიჯი
-       set({
+        set({
           isLoading: false,
-          error: result // "Username already exists" ან "Passwords don't match"
+          error: result, // "Username already exists" ან "Passwords don't match"
         });
-        throw new Error(result) // ვისვრით შეცდომას
-      }else{
+        // throw new Error(result) ← ეს წაშლილია!
+        return; // უბრალოდ ვასრულებთ ფუნქციას
+      } else {
         // წარმატების შემთხვევა: result არის user ობიექტი
         localStorage.setItem("currentUser", JSON.stringify(result));
+
         set({
-          user: result,            // ახალი მომხმარებელი
-          isAuthenticated: true,   // ავტორიზება წარმატებულია
-          isLoading: false,        // ჩატვირთვა დასრულდა
-          error:null              // შეცდომა არ არის
+          user: result, // ახალი მომხმარებელი
+          isAuthenticated: true, // ავტორიზება წარმატებულია
+          isLoading: false, // ჩატვირთვა დასრულდა
+          error: null, // შეცდომა არ არის
         });
       }
-    }catch(error){
-       // ზოგადი შეცდომის დამუშავება
-       set({
+    } catch (error) {
+      // ეს catch ბლოკი მხოლოდ რეალური unexpected შეცდომებისთვისაა
+      // (მაგ. network errors, JSON parsing errors, etc.)
+      set({
         isLoading: false,
-        error:"Registration failed. Please try again"
-       })
+        error: "Registration failed. Please try again",
+      });
     }
   },
-
   // გამოსვლის მოქმედება
   logout: () => {
     // ვასუფთავებთ localStorage-ს
@@ -235,55 +252,55 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
       user: null,
       isAuthenticated: false,
       isLoading: false,
-      error:null
-    })
+      error: null,
+    });
   },
 
   // ავტორიზაციის შემოწმების მოქმედება
   checkAuth: () => {
-    const user =  checkAuth() // ვუწოდებთ checkAuth ფუნქციას
+    const user = checkAuth(); // ვუწოდებთ checkAuth ფუნქციას
 
-    if(user) {
+    if (user) {
       // ვალიდური სესია ნაპოვნია
       set({
         user,
         isAuthenticated: true,
         isLoading: false,
-        error: null
-      })
-    }else{
+        error: null,
+      });
+    } else {
       // სესია არ მოიძებნა ან არავალიდურია
       set({
-        user:null,
-        isAuthenticated:false,
-        isLoading:false,
-        error: null
-      })
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: null,
+      });
     }
   },
-  
+
   // ჩატვირთვის მდგომარეობის დაყენების მოქმედება
-  setLoading: (loading : boolean) => {
-    set({isLoading : loading}) // მარტივად ანახლებს loading state-ს
+  setLoading: (loading: boolean) => {
+    set({ isLoading: loading }); // მარტივად ანახლებს loading state-ს
   },
-  
+
   // მომხმარებლის დაყენების მოქმედება
-  setUser : (user: User | null) => {
+  setUser: (user: User | null) => {
     set({
       user,
-      isAuthenticated: user !== null // თუ user არის null, isAuthenticated ყოფილა false
-    })
+      isAuthenticated: user !== null, // თუ user არის null, isAuthenticated ყოფილა false
+    });
   },
-  
+
   // პროფილის განახლების მოქმედება
-  updateProfile : (updates :  Partial <User>) => {
-      const currentUser = get().user; // ვიღებთ მიმდინარე მომხმარებელს
-      if(currentUser){
-        const updateUser = {...currentUser, ...updates} // ვაერთიანებთ არსებულ მონაცემებს ახალ განახლებებთან
-        // ვანახლებთ localStorage-ს
-        localStorage.setItem("currentUser", JSON.stringify(updateUser)); // შეცდომა: უნდა იყოს setItem
-        // ვანახლებთ state-ს
-        set({user: updateUser})
-      }
-  }
+  updateProfile: (updates: Partial<User>) => {
+    const currentUser = get().user; // ვიღებთ მიმდინარე მომხმარებელს
+    if (currentUser) {
+      const updateUser = { ...currentUser, ...updates }; // ვაერთიანებთ არსებულ მონაცემებს ახალ განახლებებთან
+      // ვანახლებთ localStorage-ს
+      localStorage.setItem("currentUser", JSON.stringify(updateUser)); // შეცდომა: უნდა იყოს setItem
+      // ვანახლებთ state-ს
+      set({ user: updateUser });
+    }
+  },
 }));
