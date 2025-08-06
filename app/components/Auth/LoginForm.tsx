@@ -4,8 +4,9 @@ import Link from "next/link";
 import FormInput from "./FormInput";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userSchema } from "./loginSchema";
+ 
 import { useAuthStore } from "../../stores/authStore";
+import { loginSchema } from "./loginSchema";
 
 interface usersInputs {
   userName: string;
@@ -20,7 +21,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<usersInputs>({
-    resolver: yupResolver(userSchema),
+    resolver: yupResolver(loginSchema),
   });
 
   const onSubmit: SubmitHandler<usersInputs> = async (data) => {
