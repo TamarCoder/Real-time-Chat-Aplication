@@ -5,6 +5,7 @@ export interface User {
   email: string;
   avatar: string;
   status: UserStatus;
+  profile?: UserProfile; // იუზერებისთის საჭირო ხელსაწყოები
 }
 // users status
 export type UserStatus = 'online' | 'offline' | 'away' | 'busy';
@@ -37,4 +38,12 @@ export interface AuthActions {
     setUser: (user: User | null) => void;   
     checkAuth: () => void;
     updateProfile: (updates: Partial<User>) => void;  
+}
+
+
+
+export interface UserProfile {
+    bio?: string;
+    theme : 'light' | 'dark';
+    language: string;
 }
