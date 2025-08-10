@@ -32,24 +32,23 @@ interface UserProfileProps {
   onEdit?: () => void;
 }
 
-// მაგალითი იუზერის მონაცემები
-const initialUserData: UserData = {
-  username: "ნინო_გელაძე",
-  email: "nino.geladze@example.com",
-  bio: "ვებ დეველოპერი და დიზაინერი 🚀 მიყვარს ინოვაციური პროდუქტების შექმნა და ტექნოლოგიების ათვისება.",
-  avatar:
-    "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face",
-  isOnline: true,
-  joinDate: "იანვარი 2023",
-  location: "თბილისი, საქართველო",
-  gender: "ქალი",
-  instagram: "@nino_geladze",
-  linkedin: "nino-geladze",
+// Default user data
+const defaultUserData: UserData = {
+  username: "User",
+  email: "user@example.com",
+  bio: "No bio available",
+  avatar: "https://api.dicebear.com/9.x/pixel-art/svg?seed=default",
+  isOnline: false,
+  joinDate: "Unknown",
+  location: "Unknown",
+  gender: "Not specified",
+  instagram: "",
+  linkedin: "",
 };
 
 // პროფილის კომპონენტი
 const UserProfile: React.FC<UserProfileProps> = ({
-  userData = initialUserData,
+  userData = defaultUserData,
   onEdit,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -72,7 +71,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   };
 
   // რესპონსიული კლასები
-  const getContainerClasses =  () => `
+  const getContainerClasses = () => `
     relative w-full
     max-w-[450px]
     xs:max-w-[550px]
@@ -110,13 +109,13 @@ const UserProfile: React.FC<UserProfileProps> = ({
         <div className="flex flex-col md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
           {/* მარცხენა მხარე - ავატარი და ბიო */}
           <div className={getCardClasses()}>
-
-            <div className="p-4 sm:p-6 md:p-8 flex flex-col gap-3.5">
+            
+            <div className="p-4 sm:p-6 md:p-8">
               {/* ავატარი */}
-              <div className="text-center mb-6 ">
+              <div className="text-center mb-6">
                 <div className="relative inline-block group">
                   <img
-                    src={editData.avatar}
+                    src={editData?.avatar || defaultUserData.avatar}
                     alt="Profile photo"
                     className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-purple-500/30 shadow-2xl group-hover:scale-105 transition-transform duration-300"
                   />
@@ -131,7 +130,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     className={`absolute top-1 right-1 sm:top-2 sm:right-2 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 sm:border-3 border-slate-800 ${
                       userData.isOnline
                         ? "bg-green-500 shadow-green-500/50"
-                        : "bg-gray-500 "
+                        : "bg-gray-500"
                     } shadow-lg`}
                   ></div>
                 </div>
@@ -150,7 +149,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                         userData.isOnline ? "bg-green-400" : "bg-gray-400"
                       }`}
                     ></div>
-                    {userData.isOnline ? "Online" : "Ofline"}
+                    {userData.isOnline ? "Online" : "Offline"}
                   </span>
                 </div>
                 
@@ -169,16 +168,15 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     }
                     className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-xl text-gray-200 resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
                     rows={4}
-                    placeholder="tell us  about you..."
+                    placeholder="tell us about you..."
                   />
                 ) : (
                   <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
-                    {editData.bio}
+                    {editData?.bio || "No bio available"}
                   </p>
                 )}
               </div>
             </div>
-
           </div>
 
           {/* მარჯვენა მხარე - დეტალები */}
@@ -200,7 +198,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                       className="flex h-[45px] w-[150px] justify-center items-center gap-2 px-3 sm:px-4 py-2 bg-gray-600 text-white rounded-xl hover:bg-gray-500 transition-all duration-200 text-sm"
                     >
                       <X size={14} className="sm:w-4 sm:h-4" />
-                      <span className="hidden sm:inline">Cansel</span>
+                      <span className="hidden sm:inline">Cancel</span>
                     </button>
                   </div>
                 ) : (
@@ -236,7 +234,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                       />
                     ) : (
                       <p className="text-gray-200 font-medium text-sm sm:text-base truncate">
-                        {editData.username}
+                        {editData?.username || "Unknown User"}
                       </p>
                     )}
                   </div>
@@ -262,7 +260,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                       />
                     ) : (
                       <p className="text-gray-200 text-sm sm:text-base truncate">
-                        {editData.email}
+                        {editData?.email || "No email"}
                       </p>
                     )}
                   </div>
@@ -408,7 +406,5 @@ const UserProfile: React.FC<UserProfileProps> = ({
   );
 };
 
-// მთავარი კომპონენტი
-export default function App() {
-  return <UserProfile userData={initialUserData} />;
-}
+// მთავარი კომპონენტი - ახლა userData prop-ია საჭირო
+export default UserProfile;
