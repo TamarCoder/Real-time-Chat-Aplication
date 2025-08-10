@@ -328,11 +328,15 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
     }
   },
 
-  updateAvatar : (style: string, seed?: string) => {
+  // dicebera მეთოდი რომელიც ლინკის მეშვეობით ქმნის უნიკალურ ავატარებს 
 
+  updateAvatar : (style: string, seed?: string) => {
     const currentUser = get().user;
     if(currentUser) {
+      const actualSeed = seed || currentUser.userName || Math.random().toString();
+      const newAvatar = `https://api.dicebear.com/9.x/${style}/svg?seed=${actualSeed}`;
 
+      get().updateProfile({avatar: newAvatar}); 
     }
 
   }
