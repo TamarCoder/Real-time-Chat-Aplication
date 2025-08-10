@@ -38,6 +38,7 @@ export interface AuthActions {
     setUser: (user: User | null) => void;   
     checkAuth: () => void;
     updateProfile: (updates: Partial<User>) => void;  
+    updateAvatar: (style: string, seed?: string) => void; 
 }
 
 
