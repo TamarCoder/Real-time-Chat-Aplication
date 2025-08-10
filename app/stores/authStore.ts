@@ -7,6 +7,7 @@ import {
   LoginCredentials,
   RegisterCredentials,
   User,
+  UserProfile,
   UserStatus,
 } from "../types/types";
 // ვიმპორტებთ zustand-ს store-ის შესაქმნელად (state management-ისთვის)
@@ -21,6 +22,7 @@ type MockUser = {
   password: string; // პაროლი (plain text ფორმატში mock-ისთვის)
   avatar: string; // პროფილის სურათის URL
   status: UserStatus; // მომხმარებლის სტატუსი (online, offline, away)
+  profile: UserProfile; // მოხმარებლის ინტერფეისი , ბიო , ენა ,  თემა 
 };
 
 // ეს ფუნქცია ინახავს მომხმარებლებს localStorage-ში და JSON.parse-ით აბრუნებს მათ array-ს სახით
@@ -42,6 +44,11 @@ const getMockUsers = (): MockUser[] => {
       password: "admin123",
       avatar: "https://api.dicebear.com/9.x/pixel-art/svg", // ავტომატურად გენერირებული ავატარი
       status: "online",
+      profile: {
+        theme: "dark",
+        language: "ka",
+        bio: "System Administrator",
+      },
     },
     // რეგულარული მომხმარებელი
     {
@@ -51,6 +58,11 @@ const getMockUsers = (): MockUser[] => {
       avatar: "https://api.dicebear.com/9.x/lorelei/svg",
       password: "password",
       status: "online",
+      profile: {
+        theme: "light",
+        language: "en",
+        bio: undefined,
+      },
     },
     // მომხმარებელი 3: დემო მომხმარებელი
     {
@@ -60,6 +72,11 @@ const getMockUsers = (): MockUser[] => {
       password: "demo",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=demo",
       status: "away", // გაშორებული სტატუსი
+      profile: {
+        theme: "light",
+        language: "ka",
+        bio: "Demo user for testing",
+      },
     },
   ];
 
@@ -74,9 +91,7 @@ const saveMonckUsers = (users: MockUser[]): void => {
 };
 
 // მომხმარებლის  შესვლის პროცესს - ამოწმებს credentials-ებს
-const mockLogin = async (
-  creditians: LoginCredentials
-): Promise<User | null> => {
+const mockLogin = async ( creditians: LoginCredentials): Promise<User | null> => {
   // იმიტირებს ჩატვირთვის დროს (2 წამი)
   // ეს აჩვენებს loading state-ს რეალისტური გამოცდილებისთვის
   await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -86,7 +101,7 @@ const mockLogin = async (
   const foundUser = users.find(
     (user) =>
       // მომხმარებლის სახელი უნდა ემთხვეოდეს  და პაროლი უნდა ემთხვეოდეს
-      user. userName === creditians. userName &&
+      user.userName === creditians.userName &&
       user.password === creditians.password
   );
   // ვალიდაციის ლოგიკა
@@ -94,10 +109,11 @@ const mockLogin = async (
     // თუ მომხმარებელი ნაპოვნია, ვქმნით User ობიექტს
     const user: User = {
       id: foundUser.id,
-      userName: foundUser. userName,
+      userName: foundUser.userName,
       email: foundUser.email,
       avatar: foundUser.avatar,
       status: foundUser.status,
+      profile: foundUser.profile
     };
     return user; // წარმატება - ვაბრუნებთ User ობიექტს
   }
@@ -114,7 +130,7 @@ const mockRegister = async (
   const users = getMockUsers();
   // ვამოწმებთ მომხმარებლის სახელის უნიკალურობას
   const existingUser = users.find(
-    (user) => user. userName === creditians.username
+    (user) => user.userName === creditians.username
   );
   // თუ მომხმარებლის სახელი უკვე არსებობს
   if (existingUser) {
@@ -127,11 +143,17 @@ const mockRegister = async (
   // ვქმნით ახალ მომხმარებელს
   const newMonkUser: MockUser = {
     id: users.length + 1, // ახალი ID (არსებული მომხმარებლების რაოდენობა + 1)
-     userName: creditians.username,
+    userName: creditians.username,
     email: creditians.email,
     password: creditians.password,
     avatar: `https://api.dicebear.com/9.x/pixel-art/svg?seed=${creditians.username}`,
     status: "offline", // ახალი მომხმარებლები offline სტატუსით იწყებენ
+
+    profile: {
+      theme: "light",
+      language: "en",
+      bio: "new commers",
+    },
   };
   // ვინახავთ localStorage-ში
   users.push(newMonkUser); // ვამატებთ ახალ მომხმარებელს სიაში
@@ -144,6 +166,7 @@ const mockRegister = async (
     email: newMonkUser.email,
     avatar: newMonkUser.avatar,
     status: newMonkUser.status,
+    profile: newMonkUser.profile,
   };
   return user;
 };
@@ -179,7 +202,6 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
   isLoading: false, // არ იტვირთება
   error: null, // შეცდომა არ არის
 
-
   // შესვლის მოქმედება
   login: async (credentials: LoginCredentials) => {
     // ვაყენებთ ჩატვირთვის მდგომარეობას
@@ -196,7 +218,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
           isLoading: false, // ჩატვირთვა დასრულდა
           error: null, // შეცდომა არ არის
         });
-         return; 
+        return;
       } else {
         set({
           isLoading: false,
@@ -305,4 +327,17 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
       set({ user: updateUser });
     }
   },
+
+  // dicebera მეთოდი რომელიც ლინკის მეშვეობით ქმნის უნიკალურ ავატარებს 
+
+  updateAvatar : (style: string, seed?: string) => {
+    const currentUser = get().user;
+    if(currentUser) {
+      const actualSeed = seed || currentUser.userName || Math.random().toString();
+      const newAvatar = `https://api.dicebear.com/9.x/${style}/svg?seed=${actualSeed}`;
+
+      get().updateProfile({avatar: newAvatar}); 
+    }
+
+  }
 }));

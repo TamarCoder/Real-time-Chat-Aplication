@@ -1,8 +1,9 @@
 // src/app/register/page.tsx
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import AuthLayout from "../components/Auth/AuthLayout";
 import RegisterForm from "../components/Auth/RegisterForm";
+import UserProfile from "../components/Auth/UserProfile";
 
 interface RegisterCredentials {
   username: string;
@@ -12,12 +13,19 @@ interface RegisterCredentials {
 }
 
 export default function RegisterPage() {
+  const [showProfile, setShowProfile] = useState(false);
+
   return (
-    <AuthLayout
-      title="Create Account"
-      subtitle="Join us today and start chatting"
-    >
-      <RegisterForm />
-    </AuthLayout>
+    <>
+      <AuthLayout
+        title="Create Account"
+        subtitle="Join us today and start chatting"
+      >
+        <RegisterForm />
+      </AuthLayout>
+  
+
+      
+    </>
   );
 }
