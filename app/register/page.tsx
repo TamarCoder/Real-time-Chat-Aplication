@@ -13,8 +13,6 @@ interface RegisterCredentials {
 }
 
 export default function RegisterPage() {
-  const [showProfile, setShowProfile] = useState(false);
-
   return (
     <>
       <AuthLayout
@@ -23,9 +21,7 @@ export default function RegisterPage() {
       >
         <RegisterForm />
       </AuthLayout>
-  
 
-      
     </>
   );
 }

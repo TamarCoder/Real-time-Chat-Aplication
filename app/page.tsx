@@ -5,7 +5,7 @@ import Button from "./components/Ui/Button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function loginPage() {
   const router = useRouter();
 
   useEffect(() => {

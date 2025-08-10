@@ -126,7 +126,9 @@ const LoginForm = () => {
           isLoading={isLoading}
           disabled={isLoading}
         >
-          Sign In
+          <Link href="/home">
+              Sign In
+          </Link>
         </Button>
 
         <div className="text-center mt-6">
