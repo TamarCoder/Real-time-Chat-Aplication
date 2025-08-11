@@ -8,6 +8,7 @@ import UserProfile from "../components/Auth/UserProfile";
 
 export default function LoginPage() {
   const [showProfile, setShowProfile] = useState(false);
+  
   return (
     <AuthLayout
       title="Welcome Back"
