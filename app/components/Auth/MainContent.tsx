@@ -1,5 +1,6 @@
 "use client"
 import React from "react";
+import { Navigation } from "./Navigation";
 
 // Background Pattern Component
 const BackgroundPattern = () => (
@@ -135,8 +136,7 @@ export const MainContent = () => {
       <FloatingElements />
       
       <div className="w-full relative z-10">
-       
-        
+        <Navigation/>
         
       </div>
     </main>
