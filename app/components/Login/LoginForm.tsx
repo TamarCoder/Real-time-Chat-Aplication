@@ -1,12 +1,12 @@
 import React from "react";
 import Button from "../Ui/Button";
-import Link from "next/link";
-import FormInput from "./FormInput";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
- 
 import { useAuthStore } from "../../stores/authStore";
 import { loginSchema } from "./loginSchema";
+import FormInput from "../Auth/FormInput";
+import Link from "next/link";
+ 
 
 interface usersInputs {
   userName: string;

@@ -1,7 +1,8 @@
 "use client"
 import React from "react";
-import { Aside } from "../components/Auth/Aside";
-import { MainContent } from "../components/Auth/MainContent";
+import { Aside } from "../components/Aside/Aside";
+import { MainContent } from "../components/Main/MainContent";
+ 
  
 
  

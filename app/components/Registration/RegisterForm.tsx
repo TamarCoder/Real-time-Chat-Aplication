@@ -3,10 +3,12 @@ import React from "react";
 import Button from "../Ui/Button";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
-import FormInput from "./FormInput";
+ 
 import { useAuthStore } from "../../stores/authStore";
-import { RegisterSchema } from "./RegisteSchema";
+ 
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RegisterSchema } from "./RegisteSchema";
+import FormInput from "../Auth/FormInput";
 
 interface IFormInput {
   username: string;

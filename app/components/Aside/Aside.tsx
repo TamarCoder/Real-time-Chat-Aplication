@@ -1,7 +1,8 @@
 import React from "react";
-import { AsideBox } from "./AsideBox";
+
 import ProfileButton from "./ProfileButton";
- 
+import { AsideBox } from "./AsideBox";
+import { DirectMessagesPanel } from "./DirectMessagesPanel";
 
 // Background Pattern Component
 const BackgroundPattern = () => (
@@ -137,16 +138,20 @@ export const Aside = () => {
       <BackgroundPattern />
       <FloatingElements />
       <InnerFloatingElements />
-      
-      {/* მთავარი კონტენტი */}
-      <div className="space-y-6 relative z-10 flex-1">
-        <AsideBox />
-      </div>
 
+      {/* მთავარი კონტენტი */}
+      <div className="space-y-6 flex relative z-10 flex-1">
+        <AsideBox
+          onChatRoomClick={() => console.log("Chat clicked")}
+          activePage="chat"
+        />
+         <DirectMessagesPanel/>
+      </div>
       {/* ProfileButton ბოლოში ფიქსირებული */}
       <div className="absolute  w-[100%] h-[60px] bottom-0 ">
-        <ProfileButton />
+        <ProfileButton/>
       </div>
+
     </aside>
   );
 };

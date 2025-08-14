@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Settings } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import Button from "../Ui/Button";
 
 const ProfileButton = () => {
@@ -39,10 +39,11 @@ const ProfileButton = () => {
             e.stopPropagation();
             handleContainerClick();
           }}
-          className="p-2 cursor-pointer rounded hover:bg-gray-600"
+          className="p-2 flex items-center gap-[20px] cursor-pointer rounded hover:bg-gray-600"
           style={{ zIndex: 999 }}
         >
           <Settings size={25} className="text-gray-400" />
+          <LogOut size={25} className="text-gray-400" />
         </div>
       </div>
     </div>

@@ -3,8 +3,8 @@
 
 import React, { useState } from "react";
 import AuthLayout from "../components/Auth/AuthLayout";
-import LoginForm from "../components/Auth/LoginForm";
 import UserProfile from "../components/Auth/UserProfile";
+import LoginForm from "../components/Login/LoginForm";
 
 export default function LoginPage() {
   const [showProfile, setShowProfile] = useState(false);

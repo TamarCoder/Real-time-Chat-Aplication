@@ -2,12 +2,12 @@ import React, { ReactNode, MouseEventHandler } from 'react';
 import LoadingSpinner from './LoadingSpinner';
  
 
-type ButtonVariant = "primary" | "secondary" | "outline";
+type ButtonVariant = "primary" | "secondary" | "outline" | "tertiary";
 type ButtonSize = "sm" | "md" | "lg";
 type ButtonType = "button" | "submit" | "reset";
 
 interface ButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   type?: ButtonType;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -32,7 +32,8 @@ const Button = ({
   const variantClasses: Record<ButtonVariant, string> = {
     primary: "bg-purple-600 hover:bg-purple-700 text-white disabled:bg-purple-400 shadow-lg hover:shadow-purple-500/25",
     secondary: "bg-slate-700 hover:bg-slate-600 text-white disabled:bg-slate-500 border border-slate-600",
-    outline: "border-2 border-purple-500 text-purple-400 hover:bg-purple-500/10 disabled:border-purple-300"
+    outline: "border-2 border-purple-500 text-purple-400 hover:bg-purple-500/10 disabled:border-purple-300",
+    tertiary:" border-2 border-gray-500 text-gray-400  bg-gray-900 border border-gray-700   hover:bg-gray-500/10 disabled:border-gray-300"
   };
 
   const sizeClasses: Record<ButtonSize, string> = {
