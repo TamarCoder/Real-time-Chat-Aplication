@@ -2,7 +2,8 @@
 import React from "react";
  
 import MainContent from "../components/Main/Main";
-import { Sidebar } from "../components/Aside/Sidebar";
+import Sidebar from "../components/Aside/Sidebar";
+ 
  
  
  

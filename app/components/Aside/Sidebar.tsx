@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import { Hash, Users, Lock, Globe, Settings, LogOut, Plus, Search, MessageCircle, Volume2, Crown, Shield, Star, MoreVertical } from 'lucide-react';
-
-// Type definitions
-type UserStatus = 'online' | 'away' | 'dnd' | 'offline';
-type UserRole = 'admin' | 'moderator' | 'member';
+import React, { useState } from "react";
+import {
+  Settings,
+  LogOut,
+  Plus,
+  MoreVertical,
+  Search,
+} from "lucide-react";
+import { UserRole, UserStatus } from "../../types/types";
 
 interface DirectMessage {
   id: string;
@@ -56,21 +59,29 @@ const FloatingElements = () => (
 );
 
 const Sidebar = () => {
-  const [activeSection, setActiveSection] = useState<'rooms' | 'dms'>('dms');
+  const [activeSection, setActiveSection] = useState<"rooms" | "dms">("dms");
 
   return (
-    <aside className="bg-gray-900 min-h-screen relative flex flex-col" style={{ width: '350px', minWidth: '350px', maxWidth: '350px' }}>
+    <aside
+      className="bg-gray-900 min-h-screen relative flex flex-col"
+      
+    >
       <BackgroundPattern />
       <FloatingElements />
-      
-      <div className="relative z-10 flex flex-col h-full">
+      <div className="relative z-10 flex flex-col  gap-[25px]" style={{ padding: "15px" }}>
         {/* Server Header */}
-        <div className="p-4 border-b border-gray-700/50" style={{ height: '70px' }}>
-          <div className="flex items-center justify-between h-full">
+        <div
+          className="p-4 border-b w-full h-full flex items-center justify-center border-gray-700/50"
+          style={{ height: "70px" }}
+        >
+          <div
+            className="flex w-full  items-center justify-between h-full"
+            style={{ padding: "15px" }}
+          >
             <h1 className="bg-gradient-to-r from-purple-500 via-orange-500 to-blue-500 bg-clip-text text-transparent font-bold text-lg">
-              Chat Community
+              ChattApp
             </h1>
-            <div className="flex space-x-2">
+            <div className="flex  gap-[10px] space-x-2">
               <button className="w-8 h-8 bg-gray-700/50 rounded-lg flex items-center justify-center hover:bg-gray-600/50 transition-colors">
                 <Plus size={16} className="text-gray-400" />
               </button>
@@ -81,45 +92,43 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {/* Section Toggle */}
-        <div className="p-4">
-          <div className="flex bg-gray-800/50 rounded-lg p-1">
+        <div className="p-4 h-[50px] flex items-center justify-center">
+          <div className=" w-full h-[50px] flex justify-between bg-gray-800/50 rounded-lg p-1">
             <button
-              onClick={() => setActiveSection('rooms')}
+              onClick={() => setActiveSection("rooms")}
               className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeSection === 'rooms'
-                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                  : 'text-gray-400 hover:text-white'
+                activeSection === "rooms"
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                  : "text-gray-400 hover:text-white"
               }`}
             >
               Rooms
             </button>
             <button
-              onClick={() => setActiveSection('dms')}
+              onClick={() => setActiveSection("dms")}
               className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeSection === 'dms'
-                  ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                  : 'text-gray-400 hover:text-white'
+                activeSection === "dms"
+                  ? "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                  : "text-gray-400 hover:text-white"
               }`}
             >
               Messages
             </button>
           </div>
         </div>
-
-        {/* Search */}
-        <div className="px-4 mb-4">
+        
+       <div className="px-4 mb-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10 pointer-events-none" size={16} />
             <input
               type="text"
               placeholder={`Search ${activeSection === 'rooms' ? 'rooms' : 'conversations'}...`}
-              className="w-full h-10 pl-10 pr-4 bg-gray-800/50 backdrop-blur-sm border border-gray-600/50 rounded-lg text-gray-200 placeholder-gray-400 text-sm focus:outline-none focus:border-purple-500/50 transition-all duration-300"
+              className="w-full h-10 bg-gray-800/50 backdrop-blur-sm border border-gray-600/50 rounded-lg text-gray-200 placeholder-gray-400 text-sm focus:outline-none focus:border-purple-500/50 transition-all duration-300"
+              style={{ paddingLeft: '3rem', paddingRight: '1rem' }}
             />
           </div>
         </div>
 
-        {/* Content Area */}
         <div className="flex-1 px-4 overflow-y-auto">
           {activeSection === 'rooms' ? (
             <div className="space-y-2">
@@ -130,31 +139,29 @@ const Sidebar = () => {
                 <Plus size={14} className="text-gray-400 hover:text-white cursor-pointer" />
               </div>
 
-              {/* Empty state for rooms */}
+            
               <div className="flex items-center justify-center py-8">
                 <p className="text-gray-500 text-sm">No rooms yet</p>
               </div>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col">
+
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-gray-400 text-xs font-semibold uppercase tracking-wide">
                   Direct Messages
                 </h3>
                 <Plus size={14} className="text-gray-400 hover:text-white cursor-pointer" />
               </div>
-
-              {/* Empty state for messages */}
-              <div className="flex items-center justify-center py-8">
+              <div className="flex  flex-col items-center justify-center py-8">
                 <p className="text-gray-500 text-sm">No conversations yet</p>
               </div>
             </div>
           )}
         </div>
-
-        {/* User Profile */}
-        <div className="p-4 border-t border-gray-700/50">
-          <div className="flex items-center space-x-3 p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg">
+      </div>
+      <div className="p-4 relative  top-[520px] w-full  border-t border-gray-700/50" style={{ padding: "14px" }}>
+          <div className="flex items-center  gap-3 space-x-3 p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg">
             <div className="relative">
               <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold">TC</span>
@@ -167,7 +174,7 @@ const Sidebar = () => {
               <p className="text-green-400 text-xs">Online</p>
             </div>
             
-            <div className="flex space-x-1">
+            <div className="flex items-center gap-2.5 space-x-1">
               <button className="w-8 h-8 bg-gray-700/50 rounded-lg flex items-center justify-center hover:bg-gray-600/50 transition-colors">
                 <Settings size={16} className="text-gray-400" />
               </button>
@@ -176,7 +183,6 @@ const Sidebar = () => {
               </button>
             </div>
           </div>
-        </div>
       </div>
     </aside>
   );

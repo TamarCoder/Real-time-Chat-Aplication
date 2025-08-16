@@ -10,6 +10,8 @@ export interface User {
 // users status
 export type UserStatus = 'online' | 'offline' | 'away' | 'busy' |'dnd';
 export type UserRole = "admin" | "moderator" | "member";
+export type ChannelType = 'room' | 'dm';
+
 // Authentification  interface
 export interface AuthState {
     user: User | null;       
@@ -71,4 +73,32 @@ export interface DirectMessage {
   lastSeen: string;
   unread: number;
   role: UserRole;
+}
+
+export interface Reaction {
+  emoji: string;
+  count: number;
+}
+
+export interface Message {
+  id: number;
+  user: string;
+  avatar: string;
+  role: UserRole;
+  time: string;
+  content: string;
+  reactions: Reaction[];
+  replies: number;
+}
+
+export interface OnlineMember {
+  name: string;
+  avatar: string;
+  role: UserRole;
+  status: UserStatus;
+}
+
+export interface Channel {
+  name: string;
+  type: ChannelType;
 }
