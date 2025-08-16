@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "../../stores/authStore";
 import ProfileField from "./ProfileField";
- 
 
 /**
  * მომხმარებლის პროფილის კომპონენტი
@@ -113,19 +112,8 @@ const UserProfile: React.FC = () => {
     2xl:mx-20 2xl:my-10 3xl:mx-24 3xl:my-12 4xl:mx-28 4xl:my-14 5xl:mx-32 5xl:my-16
   `;
 
-  // თუ მომხმარებელი არ არის შესული
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 flex items-center justify-center">
-        <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 text-center">
-          <p className="text-gray-300">Please log in to view your profile</p>
-        </div>
-      </div>
-    );
-  }
-
   // მომხმარებლის ონლაინ სტატუსი
-  const isOnline = user.status === "online";
+  const isOnline = user?.status === "online";
 
   /**
    * სტატუსის ვიზუალური სტილები
@@ -139,21 +127,22 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+    <div className=" h-[800px] bg-gradient-to-br from-slate-600 via-slate-800 to-slate-900 p-4 ">
       <div className={containerClasses}>
         <div className="flex flex-col md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
-          {/* ავატარი და ბიო სექცია */}
+
+
           <div className={cardClasses}>
             <div className="p-4 sm:p-6 md:p-8">
-              {/* ავატარი */}
+       
               <div className="text-center mb-6">
                 <div className="relative inline-block group">
                   <img
-                    src={user.avatar}
+                    src={user?.avatar}
                     alt="Profile photo"
                     className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-purple-500/30 shadow-2xl group-hover:scale-105 transition-transform duration-300"
                   />
-                  {/* ავატარის შეცვლის ღილაკი */}
+        
                   <button 
                     onClick={handleAvatarChange}
                     disabled={isLoading}
@@ -163,11 +152,10 @@ const UserProfile: React.FC = () => {
                     <Camera size={14} className="sm:w-4 sm:h-4" />
                   </button>
 
-                  {/* სტატუსის ინდიკატორი */}
                   <div className={`absolute top-1 right-1 sm:top-2 sm:right-2 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 sm:border-3 border-slate-800 ${statusStyles.indicator} shadow-lg`} />
                 </div>
 
-                {/* სტატუსის ტექსტი */}
+           
                 <div className="mt-3">
                   <span className={`inline-flex w-[100px] h-[40px] items-center justify-center gap-2 px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${statusStyles.badge}`}>
                     <div className={`w-2 h-2 rounded-full ${statusStyles.dot}`} />
@@ -176,7 +164,7 @@ const UserProfile: React.FC = () => {
                 </div>
               </div>
 
-              {/* ბიო სექცია */}
+        
               <div className="text-center">
                 <h3 className="text-base sm:text-lg font-semibold text-purple-300 mb-3">
                   About me
@@ -198,11 +186,9 @@ const UserProfile: React.FC = () => {
             </div>
           </div>
 
-          {/* დეტალების სექცია */}
+      
           <div className={cardClasses}>
             <div className="p-4 sm:p-6 md:p-8">
-              
-              {/* რედაქტირების ღილაკები */}
               <div className="flex justify-end mb-4 sm:mb-6">
                 {isEditing ? (
                   <div className="flex gap-2">
@@ -232,11 +218,9 @@ const UserProfile: React.FC = () => {
                   </button>
                 )}
               </div>
-
-              {/* მომხმარებლის ველები */}
               <div className="space-y-4 sm:space-y-6 flex flex-col gap-2">
                 
-                {/* იუზერნეიმი */}
+              
                 <ProfileField
                   icon={<User className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />}
                   label="Username"
@@ -244,8 +228,7 @@ const UserProfile: React.FC = () => {
                   onChange={(value) => updateEditData('userName', value)}
                   isEditing={isEditing}
                 />
-
-                {/* ელფოსტა */}
+ 
                 <ProfileField
                   icon={<Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />}
                   label="Email"
@@ -257,7 +240,7 @@ const UserProfile: React.FC = () => {
                   focusColor="focus:ring-blue-500"
                 />
 
-                {/* გენდერი */}
+              
                 <ProfileField
                   icon={<User className="w-4 h-4 sm:w-5 sm:h-5 text-pink-400" />}
                   label="Gender"
@@ -270,14 +253,14 @@ const UserProfile: React.FC = () => {
                   focusColor="focus:ring-pink-500"
                 />
 
-                {/* სოციალური ქსელები */}
+              
                 <div className="space-y-3">
                   <h3 className="text-base sm:text-lg font-semibold text-purple-300">
                     Social Media
                   </h3>
                   <div className="flex items-center gap-10">
                     
-                    {/* Instagram */}
+                  
                     <div className="flex items-center gap-3 sm:gap-4">
                       <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full flex-shrink-0">
                         <Instagram className="w-4 h-4 sm:w-5 sm:h-5 text-pink-400" />
@@ -299,7 +282,7 @@ const UserProfile: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* LinkedIn */}
+                   
                     <div className="flex items-center gap-3 sm:gap-4">
                       <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-blue-600/20 rounded-full flex-shrink-0">
                         <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
@@ -323,7 +306,7 @@ const UserProfile: React.FC = () => {
                   </div>
                 </div>
 
-                {/* რეგისტრაციის თარიღი */}
+             
                 <div className="flex items-center gap-3 sm:gap-4 h-[60px]">
                   <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-green-600/20 rounded-full flex-shrink-0">
                     <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
@@ -336,7 +319,6 @@ const UserProfile: React.FC = () => {
                   </div>
                 </div>
 
-                {/* ლოკაცია */}
                 <ProfileField
                   icon={<MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />}
                   label="Location"

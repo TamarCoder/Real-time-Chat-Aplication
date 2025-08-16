@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Channel, ChannelType, UserRole, UserStatus } from "../../types/types";
 import { Actives } from "./Actives";
+import UserProfile from "../Auth/UserProfile";
 
 // Background Pattern Component
 const BackgroundPattern = () => (
@@ -136,6 +137,8 @@ const MainContent = () => {
           <div className="flex-1 flex flex-col">
             <div className="flex-1 text-amber-50 overflow-y-auto p-4 space-y-4  flex items-center justify-center">
               messages will here
+
+               
             </div>
 
             <div className="p-4 border-t border-gray-700/50">
@@ -173,6 +176,7 @@ const MainContent = () => {
                 </button>
               </div>
             </div>
+             
           </div>
 
           <Actives/>

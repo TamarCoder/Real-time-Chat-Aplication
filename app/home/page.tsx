@@ -1,26 +1,48 @@
-"use client"
-import React from "react";
- 
+"use client";
+import React, { useState } from "react";
 import MainContent from "../components/Main/Main";
 import Sidebar from "../components/Aside/Sidebar";
- 
- 
- 
- 
+import UserProfile from "../components/Auth/UserProfile";
 
- 
- 
 export default function Home() {
+  const [showProfile, setShowProfile] = useState(false);
+
+  const handleShowProfile = () => {
+    setShowProfile(true);
+    console.log('Profile opened');
+  };
+
   return (
     <div className="min-h-screen flex">
-      {/* Aside - visible on all screens, but only component on mobile */}
+      {/* Sidebar - მარცხენა მხარე */}
       <div className="w-full md:w-80 lg:w-75">
-        <Sidebar />
+        <Sidebar onShowProfile={handleShowProfile} />
       </div>
-      
-      {/* Main Content - hidden on mobile (md:block means visible from medium screens up) */}
-      <div className="hidden md:block flex-1">
+
+      {/* Main Content Area - მარჯვენა მხარე */}
+      <div className="hidden md:block flex-1 relative">
+        {/* ნორმალური მთავარი კონტენტი */}
         <MainContent />
+        
+        {/* პროფილის modal overlay */}
+        {showProfile && (
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="relative bg-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full   overflow-auto">
+              {/* დახურვის ღილაკი */}
+              <button
+                onClick={() => setShowProfile(false)}
+                className="absolute top-4 right-4 z-10 p-2 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors shadow-lg"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              
+              {/* პროფილის კომპონენტი */}
+              <UserProfile />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

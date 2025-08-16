@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import Button from "../Ui/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,15 +7,26 @@ import { useAuthStore } from "../../stores/authStore";
 import { loginSchema } from "./loginSchema";
 import FormInput from "../Auth/FormInput";
 import Link from "next/link";
- 
+import { useRouter } from "next/navigation";
 
 interface usersInputs {
   userName: string;
   password: string;
 }
+ 
+
+ 
 
 const LoginForm = () => {
-  const { login: login, isLoading, error } = useAuthStore();
+  const { login: login  } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  
+   const router = useRouter();
+
+ 
 
   const {
     register,
@@ -29,6 +41,33 @@ const LoginForm = () => {
       await login(data);
     } catch (error) {
       console.log("Login error", error);
+    }
+  };
+
+
+  const isHandleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // ვალიდაცია
+      if (!email || !password) {
+        throw new Error('Please fill in all fields');
+      }
+
+      // ლოგინის მცდელობა
+      const success = await login(userName, password);
+      
+      if (success) {
+        router.push('/home');
+      } else {
+        throw new Error('Invalid credentials');
+      }
+    } catch (err) {
+      setError(err.message || 'Login failed');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,7 +89,7 @@ const LoginForm = () => {
           </p>
         </div>
       )}
-      
+
       <FormInput
         {...register("userName")}
         label="Username"
@@ -125,10 +164,9 @@ const LoginForm = () => {
           className="w-[70%] h-[56px] cursor-pointer"
           isLoading={isLoading}
           disabled={isLoading}
+          onClick={handleSignIn}
         >
-          <Link href="/home">
-              Sign In
-          </Link>
+          Sign In
         </Button>
 
         <div className="text-center mt-6">
