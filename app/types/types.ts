@@ -8,7 +8,8 @@ export interface User {
   profile?: UserProfile; // იუზერებისთის საჭირო ხელსაწყოები
 }
 // users status
-export type UserStatus = 'online' | 'offline' | 'away' | 'busy';
+export type UserStatus = 'online' | 'offline' | 'away' | 'busy' |'dnd';
+export type UserRole = "admin" | "moderator" | "member";
 // Authentification  interface
 export interface AuthState {
     user: User | null;       
@@ -47,4 +48,27 @@ export interface UserProfile {
     bio?: string;
     theme : 'light' | 'dark';
     language: string;
+}
+
+
+export interface Room {
+  id: string;
+  name: string;
+  type: "text" | "voice";
+  icon: any;
+  color: string;
+  members: number;
+  unread: number;
+  private?: boolean;
+  activeUsers?: string[];
+}
+
+export interface DirectMessage {
+  id: string;
+  name: string;
+  avatar: string;
+  status: UserStatus;
+  lastSeen: string;
+  unread: number;
+  role: UserRole;
 }
