@@ -2,10 +2,10 @@ import React from "react";
 import Button from "../Ui/Button";
 import Link from "next/link";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 
-import { useAuthStore } from "../../stores/authStore";
+import {useAuthStore} from "../../stores/authStore";
 import {loginSchema} from "./loginSchema";
 import FormInput from "../Auth/FormInput";
 
@@ -15,12 +15,12 @@ interface usersInputs {
 }
 
 const LoginForm = () => {
-    const { login: login, isLoading, error } = useAuthStore();
+    const {login: login, isLoading, error} = useAuthStore();
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: {errors},
     } = useForm<usersInputs>({
         resolver: yupResolver(loginSchema),
     });
@@ -45,7 +45,7 @@ const LoginForm = () => {
                 >
                     <p className="text-red-400 text-sm flex items-center  text-center justify-center gap-2">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="..." clipRule="evenodd" />
+                            <path fillRule="evenodd" d="..." clipRule="evenodd"/>
                         </svg>
                         {error}
                     </p>
@@ -127,7 +127,9 @@ const LoginForm = () => {
                     isLoading={isLoading}
                     disabled={isLoading}
                 >
-                    Sign In
+
+                    <Link href="/home"> Sign In</Link>
+                    
                 </Button>
 
                 <div className="text-center mt-6">
