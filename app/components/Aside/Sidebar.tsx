@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Settings, LogOut, Plus, MoreVertical, Search } from "lucide-react";
 import { UserRole, UserStatus } from "../../types/types";
-import { log } from "node:console";
 import Link from "next/link";
 
 interface DirectMessage {
@@ -78,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile }) => {
             style={{ padding: "15px" }}
           >
             <h1 className="bg-gradient-to-r from-purple-500 via-orange-500 to-blue-500 bg-clip-text text-transparent font-bold text-lg">
-              ChattApp
+              Chat App
             </h1>
             <div className="flex  gap-[10px] space-x-2">
               <button className="w-8 h-8 bg-gray-700/50 rounded-lg flex items-center justify-center hover:bg-gray-600/50 transition-colors">
@@ -168,8 +167,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile }) => {
           )}
         </div>
       </div>
+
       <div
-        className="p-4 relative  top-[520px] w-full  border-t border-gray-700/50"
+        className="p-4 relative  top-[530px] w-full  border-t border-gray-700/50"
         style={{ padding: "14px" }}
       >
         <div className="flex items-center  gap-3 space-x-3 p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg">
