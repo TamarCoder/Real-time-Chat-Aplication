@@ -127,9 +127,9 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div className=" h-[800px] bg-gradient-to-br from-slate-600 via-slate-800 to-slate-900 p-4 ">
-      <div className={containerClasses}>
-        <div className="flex flex-col md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
+    <div className=" h-[700px] bg-gradient-to-br from-slate-600 via-slate-800 to-slate-900 p-4 "  >
+      <div className={containerClasses} >
+        <div className="flex flex-col md:grid-cols-2 gap-4 md:gap-6 lg:gap-8" >
 
           <div className={cardClasses}>
             <div className="p-4 sm:p-6 md:p-8"
@@ -137,8 +137,8 @@ const UserProfile: React.FC = () => {
                paddingTop:'30px'
              }}
             >
-              <div className="text-center mb-6">
-                <div className="relative inline-block group">
+              <div className="text-center mb-6 "  >
+                <div className="relative inline-block group" >
                   <img
                     src={user?.avatar}
                     alt="Profile photo"
@@ -167,7 +167,7 @@ const UserProfile: React.FC = () => {
               </div>
 
         
-              <div className="text-center">
+              <div className="text-center ">
                 <h3 className="text-base sm:text-lg font-semibold text-purple-300 mb-3">
                   About me
                 </h3>
@@ -189,8 +189,8 @@ const UserProfile: React.FC = () => {
           </div>
 
       
-          <div className={cardClasses}>
-            <div className="p-4 sm:p-6 md:p-8">
+          <div className={cardClasses} >
+            <div className="p-4 sm:p-6 md:p-8 " style={{paddingLeft:'15px', paddingRight:'20px'}}>
               <div className="flex justify-end mb-4 sm:mb-6">
                 {isEditing ? (
                   <div className="flex gap-2">
@@ -256,7 +256,7 @@ const UserProfile: React.FC = () => {
                 />
 
               
-                <div className="space-y-3">
+                <div className="space-y-3 ">
                   <h3 className="text-base sm:text-lg font-semibold text-purple-300">
                     Social Media
                   </h3>
@@ -319,18 +319,20 @@ const UserProfile: React.FC = () => {
                     </label>
                     <p className="text-gray-200 text-sm sm:text-base">Recently joined</p>
                   </div>
+
+                  <ProfileField
+                      icon={<MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />}
+                      label="Location"
+                      value={editData.location}
+                      onChange={(value) => updateEditData('location', value)}
+                      isEditing={isEditing}
+                      placeholder="Enter your location"
+                      iconBgColor="bg-orange-600/20"
+                      focusColor="focus:ring-orange-500"
+                  />
                 </div>
 
-                <ProfileField
-                  icon={<MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />}
-                  label="Location"
-                  value={editData.location}
-                  onChange={(value) => updateEditData('location', value)}
-                  isEditing={isEditing}
-                  placeholder="Enter your location"
-                  iconBgColor="bg-orange-600/20"
-                  focusColor="focus:ring-orange-500"
-                />
+
               </div>
             </div>
           </div>
