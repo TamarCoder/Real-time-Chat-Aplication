@@ -1,6 +1,8 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import Button from "../Ui/Button";
 import Link from "next/link";
+
 
 import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -8,6 +10,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useAuthStore} from "../../stores/authStore";
 import {loginSchema} from "./loginSchema";
 import FormInput from "../Auth/FormInput";
+import {useRouter} from "next/navigation";
 
 interface usersInputs {
     userName: string;
@@ -15,7 +18,8 @@ interface usersInputs {
 }
 
 const LoginForm = () => {
-    const {login: login, isLoading, error} = useAuthStore();
+    const router = useRouter();
+    const {login, isLoading, error, isAuthenticated} = useAuthStore();
 
     const {
         register,
@@ -23,14 +27,22 @@ const LoginForm = () => {
         formState: {errors},
     } = useForm<usersInputs>({
         resolver: yupResolver(loginSchema),
+        mode:'onSubmit'
     });
 
-    const onSubmit: SubmitHandler<usersInputs> = async (data) => {
-        try {
-            await login(data);
-        } catch (error) {
-            console.log("Login error", error);
+    // Authentication success-ის მოსმენა
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/home");
         }
+    }, [isAuthenticated, router]);
+
+    const onSubmit: SubmitHandler<usersInputs> = async (data) => {
+        await login({
+            userName: data.userName,
+            password: data.password
+        });
+
     };
 
     return (
@@ -45,7 +57,7 @@ const LoginForm = () => {
                 >
                     <p className="text-red-400 text-sm flex items-center  text-center justify-center gap-2">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="..." clipRule="evenodd"/>
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
                         </svg>
                         {error}
                     </p>
@@ -76,13 +88,14 @@ const LoginForm = () => {
                     </svg>
                 }
             />
+
             <FormInput
                 {...register("password")}
                 label="Password"
                 name="password"
                 type="password"
                 error={errors.password?.message}
-                autoComplete="new-confirm-password"
+                autoComplete="current-password"
                 placeholder="Enter your password"
                 required
                 icon={
@@ -117,7 +130,7 @@ const LoginForm = () => {
                 </a>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button - Link-ი ამოცილებული */}
             <div className="flex flex-col items-center justify-center gap-3">
                 <Button
                     type="submit"
@@ -127,14 +140,12 @@ const LoginForm = () => {
                     isLoading={isLoading}
                     disabled={isLoading}
                 >
-
-                    <Link href="/home"> Sign In</Link>
-                    
+                    {isLoading ? "Signing In..." : "Sign In"}
                 </Button>
 
                 <div className="text-center mt-6">
                     <p className="text-slate-400">
-                        Dont have an account?
+                        Dont have an account?{" "}
                         <Link
                             href="/register"
                             className="text-purple-400 hover:text-purple-300 font-medium transition-colors"

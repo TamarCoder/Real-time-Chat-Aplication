@@ -15,7 +15,11 @@ interface DirectMessage {
 
 interface SidebarProps {
     onShowProfile: () => void;
+    onShowRoomsModal:() => void;
 }
+
+
+
 
 // Background Pattern Component
 const BackgroundPattern = () => (
@@ -140,6 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile }) => {
                                     Rooms
                                 </h3>
                                 <Plus
+                                    onClick={onShowRoomsModal}
                                     size={14}
                                     className="text-gray-400 hover:text-white cursor-pointer"
                                 />
