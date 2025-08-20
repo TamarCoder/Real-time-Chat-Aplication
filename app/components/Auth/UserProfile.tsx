@@ -131,10 +131,12 @@ const UserProfile: React.FC = () => {
       <div className={containerClasses}>
         <div className="flex flex-col md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
 
-
           <div className={cardClasses}>
-            <div className="p-4 sm:p-6 md:p-8">
-       
+            <div className="p-4 sm:p-6 md:p-8"
+             style={{
+               paddingTop:'30px'
+             }}
+            >
               <div className="text-center mb-6">
                 <div className="relative inline-block group">
                   <img
