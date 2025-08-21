@@ -15,7 +15,7 @@ interface DirectMessage {
 
 interface SidebarProps {
     onShowProfile: () => void;
-    onShowRoomsModal:() => void;
+    onCreateRooms:() => void;
 }
 
 
@@ -61,7 +61,7 @@ const FloatingElements = () => (
     </div>
 );
 
-const Sidebar: React.FC<SidebarProps> = ({ onShowProfile }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
     const [activeSection, setActiveSection] = useState<"rooms" | "dms">("dms");
     return (
         <aside className="bg-gray-900 min-h-screen relative flex flex-col justify-between">
@@ -144,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile }) => {
                                     Rooms
                                 </h3>
                                 <Plus
-                                    onClick={onShowRoomsModal}
+                                    onClick={onCreateRooms}
                                     size={14}
                                     className="text-gray-400 hover:text-white cursor-pointer"
                                 />
