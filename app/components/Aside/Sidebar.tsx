@@ -145,7 +145,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                                 </h3>
                                 <Plus
                                     onClick={onCreateRooms}
-                                    size={14}
+                                    size={16}
                                     className="text-gray-400 hover:text-white cursor-pointer"
                                 />
                             </div>

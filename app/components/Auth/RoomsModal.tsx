@@ -1,3 +1,4 @@
+import {useAuthStore} from "../../stores/authStore";
 
 
 const  RoomsModal = () => {
@@ -14,11 +15,26 @@ const  RoomsModal = () => {
     2xl:mx-20 2xl:my-10 3xl:mx-24 3xl:my-12 4xl:mx-28 4xl:my-14 5xl:mx-32 5xl:my-16
   `;
 
+    const emojis = ['💬', '🎮', '🎵', '📚', '🎨', '💼', '🔬', '🍕', '🌟', '🎯', '🚀', '❤️'];
+    const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#06b6d4'];
+    const categories = ['General', 'Gaming', 'Music', 'Study', 'Work', 'Art', 'Tech', 'Sports'];
+
     return(
         <div className=" h-[700px] bg-gradient-to-br from-slate-600 via-slate-800 to-slate-900 p-4 ">
-            <div className={containerClasses}>
+            <div className={containerClasses} style={{padding:'15px'}}>
                 <div className={cardClasses}>
-                      
+                   <div className="flex w-full h-[60px]" style={{
+                       paddingTop:'10px',
+                       paddingLeft:'10px'
+                   }}>
+                       <h1  className='inline-block text-[20px] text-white'>Create New Room</h1>
+                   </div>
+
+
+
+
+
+
                 </div>
             </div>
         </div>
