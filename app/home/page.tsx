@@ -7,20 +7,23 @@ import RoomsModal from "../components/Auth/RoomsModal";
 
 export default function Home() {
     const [showProfile, setShowProfile] = useState(false);
-    const [showCreateRooms, setShowCreateRooms] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleShowProfile = () => {
         setShowProfile(true);
     };
 
     const handleCreateRooms = () => {
-        setShowCreateRooms(true);
-        console.log('მოდალი გაიხსნა ')
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     return (
         <div className="min-h-screen flex">
-            {/* Sidebar - მარცხენა მხარე */}
+            {/* Sidebar */}
             <div className="w-full md:w-80 lg:w-72">
                 <Sidebar
                     onShowProfile={handleShowProfile}
@@ -28,17 +31,14 @@ export default function Home() {
                 />
             </div>
 
-            {/* Main Content Area - მარჯვენა მხარე */}
+            {/* Main Content Area */}
             <div className="hidden md:block flex-1 relative">
-                {/* ნორმალური მთავარი კონტენტი */}
                 <MainContent/>
 
-                {/* პროფილის modal overlay */}
+                {/* პროფილის modal */}
                 {showProfile && (
-                    <div
-                        className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                        <div className="relative bg-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full   overflow-auto">
-                            {/* დახურვის ღილაკი */}
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                        <div className="relative bg-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full overflow-auto">
                             <button
                                 onClick={() => setShowProfile(false)}
                                 className="absolute top-4 right-4 z-10 p-2 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors shadow-lg"
@@ -48,36 +48,34 @@ export default function Home() {
                                           d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
-
-                            {/* პროფილის კომპონენტი */}
                             <UserProfile/>
                         </div>
                     </div>
                 )}
 
-                {showCreateRooms && (
-                    <div
-                        className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                        <div className="relative bg-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full   overflow-auto" >
-                            {/* დახურვის ღილაკი */}
+                {/* ✅ Room modal - სწორი ვარიანტი */}
+                {isModalOpen && (
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                        <div className="relative bg-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full overflow-auto">
                             <button
-                                onClick={() => setShowCreateRooms(false)}
-                                className="absolute flex items-center justify-center top-4 right-4 z-10  w-[40px] h-[40px]  bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors shadow-lg"
-                                style={{marginTop: '15px', marginRight: '15px'}}>
+                                onClick={closeModal}
+                                className="absolute flex items-center justify-center top-4 right-4 z-10 w-[40px] h-[40px] bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors shadow-lg"
+                                style={{marginTop: '15px', marginRight: '15px'}}
+                            >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                           d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
 
-                            {/* კომპონენტი */}
-                           <RoomsModal/>
+                            {/* ✅ props-ები გადაეცემა */}
+                            <RoomsModal
+
+                                onClose={closeModal}
+                            />
                         </div>
                     </div>
                 )}
-
-
-
             </div>
         </div>
     );
