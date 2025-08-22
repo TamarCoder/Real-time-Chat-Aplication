@@ -1,22 +1,8 @@
 import React from 'react';
 
-interface DevelopersRoomProps {
-    onChatRoomClick?: () => void;
-    userInitials?: string;
-    userName?: string;
-    isOnline?: boolean;
-    notificationCount?: number;
-    activePage?: string;
-    isActive?: boolean;
-    hasUnread?: boolean;
-    unreadCount?: number;
-    memberCount?: number;
-    onlineCount?: number;
-    lastMessageTime?: string;
-}
 
 
-const DevelopersRoom: React.FC<DevelopersRoomProps> = ({onChatRoomClick = () => {},userName = "Developers", activePage = "", isActive = false, hasUnread = true, unreadCount = 5,}) => {
+const DevelopersRoom: React.FC  = () => {
 
     const DevelopersIcon = () => (
         <svg
@@ -51,31 +37,10 @@ const DevelopersRoom: React.FC<DevelopersRoomProps> = ({onChatRoomClick = () => 
     );
 
     return (
-        <button  onClick={onChatRoomClick}  className={` flex items-center gap-3 w-full h-[50px] px-6 py-3 rounded-md text-lg transition-all duration-200 relative
-          ${activePage === 'Developers' || isActive ? 'bg-blue-500/20 text-blue-300' : hasUnread
-            ? 'bg-yellow-500/10 text-yellow-200 hover:bg-yellow-500/20'
-            : 'text-gray-300 hover:bg-slate-700/50 hover:text-white'}
-       `} aria-label="Developers Room">
-
+        <button className= 'flex items-center gap-3 w-full h-[50px] px-6 py-3 rounded-md text-lg transition-all duration-200 relative bg-sky-400'  >
             <DevelopersIcon  />
-            <span className="truncate">#{userName}</span>
+            <span className="truncate"># Developers </span>
 
-            {/* Active indicator */}
-            {(activePage === 'developers' || isActive) && (
-                <div className="absolute -left-1 top-0 bottom-0 w-1 bg-blue-400 rounded-r-full"></div>
-            )}
-
-            {/* Unread indicator line */}
-            {hasUnread && !isActive && (
-                <div className="absolute -left-1 top-0 bottom-0 w-1 bg-yellow-400 rounded-r-full"></div>
-            )}
-
-            {/* Unread Count Bubble */}
-            {hasUnread && unreadCount && unreadCount > 0 && (
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 bg-yellow-500 text-black text-xs font-bold px-2 py-0.5 rounded-full">
-
-        </span>
-            )}
         </button>
     );
 };
