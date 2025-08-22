@@ -21,13 +21,14 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
         onClose();
     };
 
-    const emojis = ['💬', '📚', '🎨', '💼', '🍕', '🌟', '🎯', '🚀', '❤️'];
+    const emojis = ['💬', '⚛️', '🎨', '💼', '🍕', '🎯', '🚀'];
     const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#06b6d4'];
     const categories = ['General', 'Study', 'Developers', 'Design', 'Tech'];
 
     return (
         <div className={RoomsMedia()}>
             <div className='h-auto w-full flex flex-col gap-1' style={{padding: '15px'}}>
+
 
                 <div className="absolute inset-0 opacity-10">
                     <div className=" top-0 left-0 w-full h-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-pulse"></div>
