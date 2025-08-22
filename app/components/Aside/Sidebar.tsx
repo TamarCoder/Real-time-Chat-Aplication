@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Settings, LogOut, Plus, MoreVertical, Search } from "lucide-react";
 import Link from "next/link";
 import { BackgroundPattern, FloatingElements } from "../Ui/background/BackgroundPattern";
+import Room from "./Room/Room";
 
 
 interface SidebarProps {
@@ -97,6 +98,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms }) => {
                                     className="text-gray-400 hover:text-white cursor-pointer"
                                 />
                             </div>
+
+                            <Room/>
 
                         </div>
                     ) : (
