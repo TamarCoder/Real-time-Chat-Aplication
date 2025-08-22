@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 interface InputProps {
   label?: string;
@@ -26,7 +26,6 @@ const Input: React.FC<InputProps> = ({
   autoComplete,
   disabled = false,
   required = false,
-  terms = false,
   className = "",
   icon,
 }) => {

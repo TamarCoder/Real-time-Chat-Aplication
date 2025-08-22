@@ -2,8 +2,8 @@
 import React, {useState} from "react";
 import MainContent from "../components/Main/Main";
 import Sidebar from "../components/Aside/Sidebar";
-import UserProfile from "../components/Auth/UserProfile";
-import RoomsModal from "../components/Auth/RoomsModal";
+import UserProfile from "../components/Auth/ProfileModal/UserProfile";
+import RoomsModal from "../components/Auth/RoomsModal/RoomsModal";
 
 const getContainerClasses = () => `
   relative w-full  

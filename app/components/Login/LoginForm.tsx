@@ -2,11 +2,8 @@
 import React, { useEffect } from "react";
 import Button from "../Ui/Button";
 import Link from "next/link";
-
-
 import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-
 import {useAuthStore} from "../../stores/authStore";
 import {loginSchema} from "./loginSchema";
 import FormInput from "../Auth/FormInput";

@@ -1,6 +1,3 @@
-// ვიმპორტებთ path-ის resolve ფუნქციას ფაილების გზების გადასაჭრელად
-import { resolve } from "path";
-// ვიმპორტებთ საჭირო ტიპებს - Authentication-ის მოქმედებები, მდგომარეობა, მომხმარებლის მონაცემები
 import {
   AuthActions,
   AuthState,
@@ -11,7 +8,7 @@ import {
   UserStatus,
 } from "../types/types";
 // ვიმპორტებთ zustand-ს store-ის შესაქმნელად (state management-ისთვის)
-import { create } from "zustand";
+import {create} from "zustand";
 
 // Mock - ქმნის იმიტირებულ  მონაცემებს
 // ეს არის ერთი ფალსო მომხმარებლის ტიპი მონაცემთა ბაზის იმიტაციისთვის
@@ -33,9 +30,8 @@ const getMockUsers = (): MockUser[] => {
   if (stored) {
     return JSON.parse(stored);
   }
-  // თუ არაფერია შენახული, ვქმნით სტანდარტულ ყალბ მომხმარებლებს
-  // ვქმნით fake backend-ს მომხმარებელთა ინფორმაციის მისაღებად
-  const defaultUSers: MockUser[] = [
+
+  return [
     // მომხმარებელი 1: ადმინისტრატორი
     {
       id: 1,
@@ -79,9 +75,6 @@ const getMockUsers = (): MockUser[] => {
       },
     },
   ];
-
-  // ვაბრუნებთ სტანდარტულ მომხმარებელთა სიას
-  return defaultUSers;
 };
 
 // ეს ფუნქცია ინახავს mock მომხმარებლებს localStorage-ში
@@ -107,15 +100,14 @@ const mockLogin = async ( creditians: LoginCredentials): Promise<User | null> =>
   // ვალიდაციის ლოგიკა
   if (foundUser) {
     // თუ მომხმარებელი ნაპოვნია, ვქმნით User ობიექტს
-    const user: User = {
+    return {
       id: foundUser.id,
       userName: foundUser.userName,
       email: foundUser.email,
       avatar: foundUser.avatar,
       status: foundUser.status,
       profile: foundUser.profile
-    };
-    return user; // წარმატება - ვაბრუნებთ User ობიექტს
+    }; // წარმატება - ვაბრუნებთ User ობიექტს
   }
   return null; // მომხმარებელი ვერ მოიძებნა
 };
@@ -160,7 +152,7 @@ const mockRegister = async (
   saveMonckUsers(users); // ვინახავთ განახლებულ სიას
 
   // ვაბრუნებთ ახალ მომხმარებელს User ფორმატში
-  const user: User = {
+  return {
     id: newMonkUser.id,
     userName: newMonkUser.userName,
     email: newMonkUser.email,
@@ -168,7 +160,6 @@ const mockRegister = async (
     status: newMonkUser.status,
     profile: newMonkUser.profile,
   };
-  return user;
 };
 
 // Zustand Store - აქ იწყება მთავარი state management
@@ -188,6 +179,7 @@ const checkAuth = (): User | null => {
       return user; // ვალიდური მომხმარებლის ობიექტი
     }
     return null; // არავალიდური მომხმარებლის სტრუქტურა
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // JSON parse-ის შეცდომა
     return null;
@@ -225,6 +217,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
           error: "Invalid username or password", // შეცდომის მესიჯი
         });
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       set({
         isLoading: false,
@@ -258,6 +251,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
           error: null, // შეცდომა არ არის
         });
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // ეს catch ბლოკი მხოლოდ რეალური unexpected შეცდომებისთვისაა
       // (მაგ. network errors, JSON parsing errors, etc.)

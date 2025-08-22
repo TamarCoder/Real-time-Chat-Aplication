@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {Camera, Edit, Mail, User, MapPin, Calendar, Instagram, Linkedin,
   Save, X, }from "lucide-react";
-import { useAuthStore } from "../../stores/authStore";
+import { useAuthStore } from "../../../stores/authStore";
 import ProfileField from "./ProfileField";
-import {cardClasses, containerClasses} from "./brackePoints";
+import {cardClasses, containerClasses} from "../brackePoints";
 
 
 const UserProfile: React.FC = () => {

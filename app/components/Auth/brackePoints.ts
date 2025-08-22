@@ -27,3 +27,6 @@ export const cardClasses = `
     sm:mx-8 sm:my-5 md:mx-10 md:my-6 lg:mx-12 lg:my-7 xl:mx-16 xl:my-8 
     2xl:mx-20 2xl:my-10 3xl:mx-24 3xl:my-12 4xl:mx-28 4xl:my-14 5xl:mx-32 5xl:my-16
 `;
+
+
+

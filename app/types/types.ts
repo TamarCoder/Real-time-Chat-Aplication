@@ -1,4 +1,5 @@
-// users information
+
+
 export interface User {
   id: number;
   userName: string;
@@ -9,8 +10,7 @@ export interface User {
 }
 // users status
 export type UserStatus = 'online' | 'offline' | 'away' | 'busy' |'dnd';
-export type UserRole = "admin" | "moderator" | "member";
-export type ChannelType = 'room' | 'dm';
+
 
 // Authentification  interface
 export interface AuthState {
@@ -18,7 +18,7 @@ export interface AuthState {
     isAuthenticated: boolean; 
     isLoading: boolean;     
     error: string | null;    
-}; 
+}
 
 //ogin/register  froms
 export interface LoginCredentials {
@@ -53,52 +53,4 @@ export interface UserProfile {
 }
 
 
-export interface Room {
-  id: string;
-  name: string;
-  type: "text" | "voice";
-  icon: any;
-  color: string;
-  members: number;
-  unread: number;
-  private?: boolean;
-  activeUsers?: string[];
-}
 
-export interface DirectMessage {
-  id: string;
-  name: string;
-  avatar: string;
-  status: UserStatus;
-  lastSeen: string;
-  unread: number;
-  role: UserRole;
-}
-
-export interface Reaction {
-  emoji: string;
-  count: number;
-}
-
-export interface Message {
-  id: number;
-  user: string;
-  avatar: string;
-  role: UserRole;
-  time: string;
-  content: string;
-  reactions: Reaction[];
-  replies: number;
-}
-
-export interface OnlineMember {
-  name: string;
-  avatar: string;
-  role: UserRole;
-  status: UserStatus;
-}
-
-export interface Channel {
-  name: string;
-  type: ChannelType;
-}

@@ -1,53 +1,13 @@
 import React, { useState } from "react";
 import { Settings, LogOut, Plus, MoreVertical, Search } from "lucide-react";
 import Link from "next/link";
+import { BackgroundPattern, FloatingElements } from "../Ui/background/BackgroundPattern";
 
-import DevelopersRoom from "../ChatRooms/Developers";
 
 interface SidebarProps {
     onShowProfile: () => void;
     onCreateRooms: () => void;
 }
-
-// Background Pattern Component
-const BackgroundPattern = () => (
-    <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl" />
-    </div>
-);
-
-// Floating Elements Component
-const FloatingElements = () => (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-20 w-6 h-6 text-purple-400/30">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-        </div>
-        <div className="absolute top-32 right-32 w-4 h-4 text-blue-400/30">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-            </svg>
-        </div>
-        <div className="absolute bottom-40 left-40 w-5 h-5 text-orange-400/30">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-        </div>
-        <div className="absolute top-1/3 left-10 w-3 h-3 text-pink-400/25">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-            </svg>
-        </div>
-        <div className="absolute bottom-20 left-1/3 w-2 h-2 text-indigo-400/30">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-            </svg>
-        </div>
-    </div>
-);
 
 const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms }) => {
     const [activeSection, setActiveSection] = useState<"rooms" | "dms">("dms");
@@ -138,9 +98,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms }) => {
                                 />
                             </div>
 
-
-                            <DevelopersRoom/>
-
                         </div>
                     ) : (
                         <div className="space-y-2 flex flex-col">
@@ -159,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms }) => {
             </div>
 
             {/* User Section */}
-            <div className="p-4 w-full border-t border-gray-700/50 bg-gray-900" style={{ padding: "14px" }}>
+            <div className="relative z-10 p-4 w-full border-t border-gray-700/50 bg-gray-900" style={{ padding: "14px" }}>
                 <div className="flex items-center gap-3 space-x-3 p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg">
                     <div className="relative">
                         <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center">
