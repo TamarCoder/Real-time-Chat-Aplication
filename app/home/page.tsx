@@ -56,7 +56,7 @@ export default function Home() {
     return (
         <div className="min-h-screen flex">
             {/* Sidebar */}
-            <div className="w-full md:w-80 lg:w-72
+            <div className="w-full
                             flex-shrink-0
                             xs:w-full sm:w-full md:w-80 lg:w-72 xl:w-72 2xl:w-80 3xl:w-80 4xl:w-80 5xl:w-80">
                 <Sidebar

@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 import { Settings, LogOut, Plus, MoreVertical, Search } from "lucide-react";
-import { UserRole, UserStatus } from "../../types/types";
 import Link from "next/link";
 
-interface DirectMessage {
-    id: string;
-    name: string;
-    avatar: string;
-    status: UserStatus;
-    lastSeen: string;
-    unread: number;
-    role: UserRole;
-}
+import DevelopersRoom from "../ChatRooms/Developers";
 
 interface SidebarProps {
     onShowProfile: () => void;
-    onCreateRooms:() => void;
+    onCreateRooms: () => void;
 }
-
-
-
 
 // Background Pattern Component
 const BackgroundPattern = () => (
@@ -61,25 +49,21 @@ const FloatingElements = () => (
     </div>
 );
 
-const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms }) => {
     const [activeSection, setActiveSection] = useState<"rooms" | "dms">("dms");
+
     return (
         <aside className="bg-gray-900 min-h-screen relative flex flex-col justify-between">
             <BackgroundPattern />
             <FloatingElements />
-            <div
-                className="relative z-10 flex flex-col  gap-[25px]"
-                style={{ padding: "15px" }}
-            >
+
+            <div className="relative z-10 flex flex-col gap-[25px]" style={{ padding: "15px" }}>
                 {/* Server Header */}
                 <div
                     className="p-4 border-b w-full h-full flex items-center justify-center border-gray-700/50"
                     style={{ height: "70px" }}
                 >
-                    <div
-                        className="flex w-full  items-center justify-between h-full"
-                        style={{ padding: "15px" }}
-                    >
+                    <div className="flex w-full  items-center justify-between h-full" style={{ padding: "15px" }}>
                         <h1 className="bg-gradient-to-r from-purple-500 via-orange-500 to-blue-500 bg-clip-text text-transparent font-bold text-lg">
                             Chat App
                         </h1>
@@ -94,6 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                     </div>
                 </div>
 
+                {/* Section Switch */}
                 <div className="p-4 h-[50px] flex items-center justify-center">
                     <div className=" w-full h-[50px] flex justify-between bg-gray-800/50 rounded-lg p-1">
                         <button
@@ -106,6 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                         >
                             Rooms
                         </button>
+
                         <button
                             onClick={() => setActiveSection("dms")}
                             className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
@@ -119,6 +105,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                     </div>
                 </div>
 
+                {/* Search */}
                 <div className="px-4 mb-4">
                     <div className="relative">
                         <Search
@@ -136,9 +123,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                     </div>
                 </div>
 
+                {/* Rooms / Messages Section */}
                 <div className="flex-1 px-4 overflow-y-auto">
                     {activeSection === "rooms" ? (
-                        <div className="space-y-2">
+                        <div className="space-y-2 flex flex-col gap-[15px]">
                             <div className="flex items-center justify-between mb-3">
                                 <h3 className="text-gray-400 text-xs font-semibold uppercase tracking-wide">
                                     Rooms
@@ -150,9 +138,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                                 />
                             </div>
 
-                            <div className="flex items-center justify-center py-8">
-                                <p className="text-gray-500 text-sm">No rooms yet</p>
-                            </div>
+
+                            <DevelopersRoom/>
+
                         </div>
                     ) : (
                         <div className="space-y-2 flex flex-col">
@@ -160,10 +148,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                                 <h3 className="text-gray-400 text-xs font-semibold uppercase tracking-wide">
                                     Direct Messages
                                 </h3>
-                                <Plus
-                                    size={14}
-                                    className="text-gray-400 hover:text-white cursor-pointer"
-                                />
+                                <Plus size={14} className="text-gray-400 hover:text-white cursor-pointer" />
                             </div>
                             <div className="flex  flex-col items-center justify-center py-8">
                                 <p className="text-gray-500 text-sm">No conversations yet</p>
@@ -173,10 +158,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
                 </div>
             </div>
 
-            <div
-                className="p-4 w-full border-t border-gray-700/50 bg-gray-900"
-                style={{ padding: "14px" }}
-            >
+            {/* User Section */}
+            <div className="p-4 w-full border-t border-gray-700/50 bg-gray-900" style={{ padding: "14px" }}>
                 <div className="flex items-center gap-3 space-x-3 p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg">
                     <div className="relative">
                         <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center">
@@ -200,17 +183,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile , onCreateRooms }) => {
 
                         <Link href="/login">
                             <button className="w-8 h-8 bg-gray-700/50 rounded-lg flex items-center justify-center hover:bg-red-500/20 transition-colors">
-                                <LogOut
-                                    size={16}
-                                    className="text-gray-400 hover:text-red-400"
-                                />
+                                <LogOut size={16} className="text-gray-400 hover:text-red-400" />
                             </button>
                         </Link>
                     </div>
                 </div>
             </div>
-
-
         </aside>
     );
 };

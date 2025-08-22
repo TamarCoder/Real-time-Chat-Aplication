@@ -139,6 +139,7 @@ const UserProfile: React.FC = () => {
             >
               <div className="text-center mb-6 "  >
                 <div className="relative inline-block group" >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={user?.avatar}
                     alt="Profile photo"
