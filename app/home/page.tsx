@@ -102,7 +102,7 @@ export default function Home() {
                                 <button
                                     onClick={closeModal}
                                     className="absolute flex items-center justify-center top-4 right-4 z-10 w-[40px] h-[40px] bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors shadow-lg"
-                                    style={{marginTop: '15px', marginRight: '15px'}}
+                                    style={{marginTop: '7px', marginRight: '15px'}}
                                 >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}

@@ -5,22 +5,6 @@ interface RoomsModalProps {
     onClose: () => void;
 }
 
-const getModalClasses = () => `
-  relative w-full
-  min-h-auto h-auto
-  max-w-[400px]
-  xs:max-w-[450px]
-  sm:max-w-[500px]
-  md:max-w-[550px]
-  lg:max-w-[600px]
-  xl:max-w-[600px]
-  2xl:max-w-[600px]
-  3xl:max-w-[600px]
-  4xl:max-w-[600px]
-  5xl:max-w-[600px]
-  mx-auto
-`;
-
 const getContainerClasses = () => `
   bg-gradient-to-br from-slate-600 via-slate-800 to-slate-900
   backdrop-blur-xl border border-slate-700/50 
@@ -57,14 +41,14 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
 
     return (
         <div className={getContainerClasses()}>
-            <div className='relative h-[700px] w-full flex flex-col gap-1' style={{padding: '15px'}}>
+            <div className='h-auto w-full flex flex-col gap-1' style={{padding: '15px'}}>
 
                 <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-pulse"></div>
+                    <div className=" top-0 left-0 w-full h-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-pulse"></div>
                 </div>
 
                 {/*header*/}
-                <div className="relative h-[70px] flex flex-col justify-center border-b rounded-2xl shadow-2xl max-w-4xl w-full overflow-auto border-slate-700/50 p-6 bg-gradient-to-r from-slate-800 to-slate-700">
+                <div className="relative  w-full flex flex-col justify-center border-b rounded-2xl shadow-2xl    overflow-auto border-slate-700/50 p-6 bg-gradient-to-r from-slate-800 to-slate-700">
                     <div className="flex items-center justify-between" style={{paddingLeft: '15px'}}>
                         <div className="flex items-center gap-3">
                             <div
@@ -85,7 +69,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
                 </div>
 
                 {/* Content */}
-                <div className="relative p-4 space-y-4 flex flex-col gap-[15px]" style={{paddingLeft: '6px'}}>
+                <div className="relative p-4 space-y-4 flex flex-col gap-[10px]" style={{paddingLeft: '6px'}}>
                     {/*Title*/}
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -95,9 +79,9 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
                     </div>
 
                     {/*emoji and colors in one row*/}
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 ">
                         <div className='flex gap-8'>
-                            <div className='flex flex-col gap-2'>
+                            <div className='flex  flex-col gap-2'>
                                 <label className="block text-sm font-medium text-slate-300">Choose Emoji</label>
                                 <div className="flex flex-wrap gap-2">
                                     {emojis.map((emoji) => (
@@ -161,7 +145,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
                             placeholder="What's this room about?"
                             value={Description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full h-[100px] px-6 py-4 placeholder:pl-[10px] placeholder:pt-[10px] bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                            className="w-full   px-6 py-4 placeholder:pl-[10px] placeholder:pt-[10px] bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                             style={{
                                 position: 'relative',
                                 zIndex: 10,
@@ -212,7 +196,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
 
                     {/* Max Members */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-medium text-slate-300 items-center gap-2">
+                        <label className="flex text-sm font-medium text-slate-300 items-center gap-2">
                             <Users className="w-4 h-4"/>
                             Max Members: {maxMembers}
                         </label>
@@ -235,8 +219,8 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
 
 
                 {/* Footer */}
-                <div className="relative w-full h-[130px] border-t border-slate-700/50 p-6 bg-slate-800/50">
-                    <div className="flex w-full h-[130px] justify-between items-center"
+                <div className="relative w-full h-[70px] border-t border-slate-700/50 p-6 bg-slate-800/50 border-b rounded-2xl shadow-2xl  ">
+                    <div className="flex w-full h-[70px] justify-between items-center"
                          style={{paddingLeft: '30px', paddingRight: '30px'}}>
                         <button
                             onClick={closeModal}
@@ -245,7 +229,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
                             Cancel
                         </button>
                         <button
-                            className="w-[200px] h-[60px] flex items-center justify-center px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300 gap-2"
+                            className="  h-[60px] flex items-center justify-center px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300 gap-2"
                             style={{backgroundColor: selectedColor}}
                         >
                             <Sparkles className="w-5 h-5"/>
