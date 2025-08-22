@@ -1,26 +1,12 @@
 import {Globe, Hash, Smile, Sparkles, Users} from "lucide-react";
 import {useState} from "react";
+import {getContainerClasses} from "./brackePoints";
 
 interface RoomsModalProps {
     onClose: () => void;
 }
 
-const getContainerClasses = () => `
-  bg-gradient-to-br from-slate-600 via-slate-800 to-slate-900
-  backdrop-blur-xl border border-slate-700/50 
-  rounded-2xl shadow-2xl w-full h-auto
-  flex flex-col justify-center
-  mx-4 my-3
-  xs:mx-6 xs:my-4
-  sm:mx-8 sm:my-5
-  md:mx-10 md:my-6
-  lg:mx-12 lg:my-7
-  xl:mx-16 xl:my-8
-  2xl:mx-20 2xl:my-10
-  3xl:mx-24 3xl:my-12
-  4xl:mx-28 4xl:my-14
-  5xl:mx-32 5xl:my-16
-`;
+const  RoomsMedia = getContainerClasses
 
 const RoomsModal = ({onClose}: RoomsModalProps) => {
     const [roomsName, setRoomsName] = useState('');
@@ -40,7 +26,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
     const categories = ['General', 'Study', 'Developers', 'Design', 'Tech'];
 
     return (
-        <div className={getContainerClasses()}>
+        <div className={RoomsMedia()}>
             <div className='h-auto w-full flex flex-col gap-1' style={{padding: '15px'}}>
 
                 <div className="absolute inset-0 opacity-10">

@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  Camera,
-  Edit,
-  Mail,
-  User,
-  MapPin,
-  Calendar,
-  Instagram,
-  Linkedin,
-  Save,
-  X,
-} from "lucide-react";
+import {Camera, Edit, Mail, User, MapPin, Calendar, Instagram, Linkedin,
+  Save, X, }from "lucide-react";
 import { useAuthStore } from "../../stores/authStore";
 import ProfileField from "./ProfileField";
+import {cardClasses, containerClasses} from "./brackePoints";
 
-/**
- * მომხმარებლის პროფილის კომპონენტი
- * საშუალებას აძლევს მომხმარებელს ნახოს და შეცვალოს თავისი პროფილის ინფორმაცია
- */
+
 const UserProfile: React.FC = () => {
   // AuthStore-იდან საჭირო ფუნქციები
   const { user, updateProfile, updateAvatar, isLoading } = useAuthStore();
@@ -68,7 +56,6 @@ const UserProfile: React.FC = () => {
     });
     setIsEditing(false);
   };
-
   /**რედაქტირების გაუქმება და ძველი მონაცემების დაბრუნება*/
   const handleCancel = () => {
     setIsEditing(false);
@@ -98,21 +85,7 @@ const UserProfile: React.FC = () => {
     setEditData(prev => ({ ...prev, [field]: value }));
   };
 
-  // CSS კლასები
-  const containerClasses = `
-    relative w-full max-w-[450px] xs:max-w-[550px] sm:max-w-[650px] 
-    md:max-w-[750px] lg:max-w-[950px] xl:max-w-[1150px] 2xl:max-w-[1350px] 
-    3xl:max-w-[1550px] 4xl:max-w-[1750px] 5xl:max-w-[2000px] mx-auto
-  `;
-
-  const cardClasses = `
-    bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl 
-    shadow-2xl w-full flex flex-col justify-center mx-4 my-3 xs:mx-6 xs:my-4 
-    sm:mx-8 sm:my-5 md:mx-10 md:my-6 lg:mx-12 lg:my-7 xl:mx-16 xl:my-8 
-    2xl:mx-20 2xl:my-10 3xl:mx-24 3xl:my-12 4xl:mx-28 4xl:my-14 5xl:mx-32 5xl:my-16
-  `;
-
-  // მომხმარებლის ონლაინ სტატუსი
+// მომხმარებლის ონლაინ სტატუსი
   const isOnline = user?.status === "online";
 
   /**
