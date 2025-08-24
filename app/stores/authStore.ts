@@ -11,7 +11,7 @@ import {
 import {create} from "zustand";
 
 // Mock - ქმნის იმიტირებულ  მონაცემებს
-// ეს არის ერთი ფალსო მომხმარებლის ტიპი მონაცემთა ბაზის იმიტაციისთვის
+// ეს არის ერთი   მომხმარებლის ტიპი მონაცემთა ბაზის იმიტაციისთვის
 type MockUser = {
   id: number; // მომხმარებლის უნიკალური ID
   userName: string; // მომხმარებლის სახელი
@@ -142,7 +142,7 @@ const mockRegister = async (
     status: "offline", // ახალი მომხმარებლები offline სტატუსით იწყებენ
 
     profile: {
-      theme: "light",
+      theme: "dark",
       language: "en",
       bio: "new commers",
     },
@@ -276,7 +276,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
   // ავტორიზაციის შემოწმების მოქმედება
   checkAuth: () => {
-    const user = checkAuth(); // ვუწოდებთ checkAuth ფუნქციას
+    const user = checkAuth();
 
     if (user) {
       // ვალიდური სესია ნაპოვნია
@@ -312,7 +312,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
   // პროფილის განახლების მოქმედება
   updateProfile: (updates: Partial<User>) => {
-    const currentUser = get().user; // ვიღებთ მიმდინარე მომხმარებელს
+    const currentUser = get().user;
     if (currentUser) {
       const updateUser = { ...currentUser, ...updates }; // ვაერთიანებთ არსებულ მონაცემებს ახალ განახლებებთან
       // ვანახლებთ localStorage-ს

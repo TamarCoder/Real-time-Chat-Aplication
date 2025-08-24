@@ -1,6 +1,8 @@
 import {Globe, Hash, Smile, Sparkles, Users} from "lucide-react";
 import {getContainerClasses} from "../brackePoints";
-import { useRoomForm } from "./useRoomForm"; // Import custom hook
+import { useRoomForm } from "./useRoomForm";
+import useChatStore from "../../../stores/addRoomState";
+
 
 interface RoomsModalProps {
     onClose: () => void;
@@ -18,6 +20,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
         resetForm();
         onClose();
     };
+    const { createRoom } = useChatStore();
 
     const handleCreateRoom = () => {
         if (!isFormValid()) {
@@ -25,8 +28,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
             return;
         }
         const formData = getFormData();
-        console.log('Room created:', formData);
-
+        createRoom(formData);
         closeModal();
     };
 
@@ -165,7 +167,7 @@ const RoomsModal = ({onClose}: RoomsModalProps) => {
                                 }}>
                                 <option value="public">🌐 Public</option>
                                 <option value="private">🔒 Private</option>
-                                <option value="invite">📩 Invite Only</option>
+                                <option value="invite"> 📩 Invite Only</option>
                             </select>
                         </div>
                         {/*category*/}
