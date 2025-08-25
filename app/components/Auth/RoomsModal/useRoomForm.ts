@@ -9,6 +9,7 @@ export interface RoomFormData {
     maxMembers: number;
     selectedEmoji: string;
     selectedColor: string;
+
 }
 
 // კონსტანტები

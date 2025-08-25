@@ -1,5 +1,6 @@
 // stores/useChatStore.ts
 import { create } from 'zustand';
+import {RoomFormData} from "../components/Auth/RoomsModal/useRoomForm";
 
 interface Room {
     id: string;
@@ -17,7 +18,7 @@ interface Room {
 interface ChatStore {
     rooms: Room[];
     activeRoomId: string | null;
-    createRoom: (roomData: Omit<Room, 'id' | 'members' | 'createdAt'>) => void;
+    createRoom: (roomData: RoomFormData) => void;
     setActiveRoom: (roomId: string) => void;
     leaveRoom: (roomId: string) => void;
 }

@@ -4,6 +4,7 @@ import MainContent from "../components/Main/Main";
 import Sidebar from "../components/Aside/Sidebar";
 import UserProfile from "../components/Auth/ProfileModal/UserProfile";
 import RoomsModal from "../components/Auth/RoomsModal/RoomsModal";
+import EditModal from "../components/Auth/EditModal/EditModal";
 
 const getContainerClasses = () => `
   relative w-full  
@@ -40,6 +41,7 @@ const getModalClasses = () => `
 export default function Home() {
     const [showProfile, setShowProfile] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModal, setIsEditModal] = useState(false)
 
     const handleShowProfile = () => {
         setShowProfile(true);
@@ -48,9 +50,15 @@ export default function Home() {
     const handleCreateRooms = () => {
         setIsModalOpen(true);
     };
+    const handleEditRoom = () => {
+        setIsEditModal(true)
+    }
+
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setIsEditModal(false)
+
     };
 
     return (
@@ -62,6 +70,7 @@ export default function Home() {
                 <Sidebar
                     onShowProfile={handleShowProfile}
                     onCreateRooms={handleCreateRooms}
+                    onEditModal={handleEditRoom}
                 />
             </div>
 
@@ -111,6 +120,30 @@ export default function Home() {
                                 </button>
 
                                 <RoomsModal onClose={closeModal} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+            {isEditModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className={getContainerClasses()}>
+                        <div className={getModalClasses()}>
+                            <div className="relative">
+                                <button
+                                    onClick={closeModal}
+                                    className="absolute flex items-center justify-center top-4 right-4 z-10 w-[40px] h-[40px] bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors shadow-lg"
+                                    style={{marginTop: '7px', marginRight: '15px'}}
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                              d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </button>
+
+                                <EditModal onClose={closeModal} />
                             </div>
                         </div>
                     </div>

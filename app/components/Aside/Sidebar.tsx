@@ -8,9 +8,11 @@ import Room from "./Room/Room";
 interface SidebarProps {
     onShowProfile: () => void;
     onCreateRooms: () => void;
+    onEditModal: () => void;
+
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms, onEditModal}) => {
     const [activeSection, setActiveSection] = useState<"rooms" | "dms">("dms");
 
     return (
@@ -99,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onShowProfile, onCreateRooms }) => {
                                 />
                             </div>
 
-                            <Room/>
+                            <Room onEditModal={onEditModal}/>
 
                         </div>
                     ) : (

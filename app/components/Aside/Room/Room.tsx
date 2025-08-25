@@ -1,5 +1,5 @@
 import useChatStore from "../../../stores/addRoomState";
-import {Hash, Users, Lock, Globe, Shield, Calendar, MessageCircle} from 'lucide-react';
+import {Hash, Users, Lock, Globe, Shield, Calendar, MessageCircle, Settings } from 'lucide-react';
 
 // Room interface
 interface Room {
@@ -17,9 +17,10 @@ interface Room {
 
 interface RoomProps {
     isActive?: boolean;
+    onEditModal: () => void;
 }
 
-const Room: React.FC<RoomProps> = ({isActive = false}) => {
+const Room: React.FC<RoomProps> = ({isActive = false, onEditModal}) => {
     const {rooms} = useChatStore();
 
     const getPrivacyIcon = (privacy: string) => {
@@ -81,8 +82,9 @@ const Room: React.FC<RoomProps> = ({isActive = false}) => {
                         </div>
 
                         {/* Privacy Indicator - გასწორებული */}
-                        <div className={`flex items-center gap-1 ${getPrivacyColor(room.privacy)}`}>
+                        <div className={`flex flex-col items-center gap-[10px] ${getPrivacyColor(room.privacy)}`}>
                             {getPrivacyIcon(room.privacy)}
+                            <Settings className='w-4 h-4' onClick={onEditModal} />
                         </div>
                     </div>
 
