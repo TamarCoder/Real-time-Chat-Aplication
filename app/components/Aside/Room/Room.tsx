@@ -50,7 +50,7 @@ const Room: React.FC<RoomProps> = ({isActive = false, onEditModal}) => {
             {rooms.map((room) => (
                 <div
                     key={room.id}
-                    className="group relative w-[250px] h-[100px] flex flex-col justify-between rounded-xl cursor-pointer transition-all duration-300 hover:bg-slate-700/50 hover:shadow-lg"
+                    className="group relative w-full h-[100px] flex flex-col justify-between rounded-xl cursor-pointer transition-all duration-300 hover:bg-slate-700/50 hover:shadow-lg"
                     style={{
                         borderLeft: `4px solid ${room.selectedColor}`,
                         paddingLeft: '10px',
@@ -126,8 +126,8 @@ const Room: React.FC<RoomProps> = ({isActive = false, onEditModal}) => {
 
                     {/* Hover Effect - Show Message Icon */}
                     <div
-                        className="absolute right-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <MessageCircle className="w-4 h-4 text-slate-400"/>
+                        className="absolute right-2 bottom-5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <MessageCircle className="w- h-4 text-slate-400"/>
                     </div>
                 </div>
             ))}
